@@ -325,7 +325,7 @@ issuers:
 #   - description: Registration
     - description: Describes the credential - depends on permitifys foundation credential
       schema: todo-rename-me1.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/todo-credential1
+      issuer_url: http://localhost:5001/myorg/todo-credential1
       depends_on:
       - permitify_registration
       credential:
@@ -386,7 +386,7 @@ issuers:
 
     - description: Describes the credential - depends on permitifys foundation credential
       schema: todo-rename-me2.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/todo-credential2
+      issuer_url: http://localhost:5001/myorg/todo-credential2
       depends_on:
       - permitify_operating_permit
       credential:
