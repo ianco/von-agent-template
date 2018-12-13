@@ -388,7 +388,7 @@ issuers:
       schema: todo-rename-me2.my-organization.ca
       issuer_url: http://localhost:5001/myorg/todo-credential2
       depends_on:
-      - permitify_operating_permit
+      - permitify_registration
       credential:
         effective_date:
           input: effective_date
