@@ -504,7 +504,7 @@ proof_requests:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
           name: registration.dflow
-          version: '1.0.0'
+          version: '1.0.1'
         attributes:
           - corp_num
   permitify_operating_permit:
@@ -513,7 +513,7 @@ proof_requests:
       - key:
           did: L6SJy7gNRCLUp8dV94hfex
           name: operating_permit.dflow
-          version: '1.0.0'
+          version: '1.0.1'
         attributes:
           - corp_num
 
