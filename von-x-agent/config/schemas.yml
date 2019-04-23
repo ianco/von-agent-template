@@ -1,19 +1,290 @@
 # Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
-- name: my-permit.my-organization
-
+- name: contract.bcca
   version: '1.0.0'
-  description: The my-permit credential issued by my-org-full-name
-  path: /my-organization/my-permit
-
+  description: The contract credential awarded to the General Contractor
+  endpoint: $ENDPOINT_URL
+  path: /bcca/contract
+  # identify the attribute which identify the owning organization
+  topic: contract_id
+  related_credentials: 
+    client:
+      related_schema: contract_relationship.bcca
+      topic: contract_id
+      related_topic: client_corp_num
+    contractor:
+      related_schema: contract_relationship.bcca
+      topic: contract_id
+      related_topic: contractor_corp_num
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: contract_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: dflow_registration
   attributes:
-    - corp_num
-    - legal_name
-    - permit_id
-    - permit_type
-    - permit_issued_date
-    - permit_status
-    - effective_date
+    client_corp_num:
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    contractor_corp_num:
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    legal_name:
+      description: Name of General Contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    contract_id:
+      description: Contract ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    permit_type:
+      description: Permit Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    permit_issued_date:
+      description: Permit Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    permit_status:
+      description: Permit Status
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Permit Effective Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+
+- name: subcontract.bcca
+  version: '1.0.0'
+  description: The sub-contract credential awarded to a Trade/Sub-Contractor under the General Contractor
+  endpoint: $ENDPOINT_URL
+  path: /bcca/subcontract
+  # identify the attribute which identify the owning organization
+  topic: subcontract_id
+  related_credentials: 
+    corporation:
+      related_schema: subcontract_relationship.bcca
+      topic: subcontract_id
+      related_topic: subcontractor_corp_num
+    contract:
+      related_schema: contract_subcontract_relationship.bcca
+      topic: subcontract_id
+      related_topic: contract_id
+  # optionally identify additional attributes to uniquely identify a credential
+  cardinality: 
+    - contract_id
+    - subcontract_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: dflow_registration
+  attributes:
+    subcontractor_corp_num:
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    legal_name:
+      description: Name of Trade/Sub-Contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    contract_id:
+      description: Contract ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    subcontract_id:
+      description: Sub-Contract ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    permit_type:
+      description: Permit Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    permit_issued_date:
+      description: Permit Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    permit_status:
+      description: Permit Status
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Permit Effective Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+
+- name: contract-payment.bcca
+  version: '1.0.0'
+  description: The payment against the master contract
+  endpoint: $ENDPOINT_URL
+  path: /bcca/contractpayment
+  # identify the attribute which identify the owning organization
+  topic: contract_id
+  # optionally identify additional attributes to uniquely identify a credential
+  cardinality: 
+    - contract_id
+    - payment_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: bcca_contract
+  attributes:
+    contract_id:
+      description: Contract ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    payment_id:
+      description: Payment ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    permit_type:
+      description: Permit Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    permit_issued_date:
+      description: Permit Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    permit_status:
+      description: Permit Status
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Permit Effective Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+
+- name: certificate-of-completion.bcca
+  version: '1.0.0'
+  description: The certification that work has been completed per the terms of the sub-contract
+  endpoint: $ENDPOINT_URL
+  path: /bcca/certificateofcompletion
+  # identify the attribute which identify the owning organization
+  topic: subcontract_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: 
+  #  - contract_id
+  #  - subcontract_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: bcca_subcontract
+  attributes:
+    subcontract_id:
+      description: Sub-Contract ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    certification_id:
+      description: Certification ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    permit_type:
+      description: Permit Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    permit_issued_date:
+      description: Permit Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    permit_status:
+      description: Permit Status
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Permit Effective Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+
+- name: subcontract-payment.bcca
+  version: '1.0.0'
+  description: The payment against a sub-contract based on completion of work
+  endpoint: $ENDPOINT_URL
+  path: /bcca/subcontractpayment
+  # identify the attribute which identify the owning organization
+  topic: subcontract_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: 
+  #  - contract_id
+  #  - payment_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: bcca_subcontract
+  attributes:
+    subcontract_id:
+      description: SubContract ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    certification_id:
+      description: Certification ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    payment_id:
+      description: Payment ID issued by the contracting organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    permit_type:
+      description: Permit Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    permit_issued_date:
+      description: Permit Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    permit_status:
+      description: Permit Status
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Permit Effective Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
 
 ### eof ###
 

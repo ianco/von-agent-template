@@ -14,3 +14,4 @@ genesis
 
 # Local config
 .env
+venv/

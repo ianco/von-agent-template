@@ -1,0 +1,67 @@
+[
+    {
+        "attributes": {
+            "client_corp_num": "Text",
+            "contract_id": "UUID",
+            "contractor_corp_num": "Text",
+            "effective_date": "2019-04-23T22:40:42.739662+00:00",
+            "legal_name": "Text",
+            "permit_issued_date": "2019-04-23T22:40:42.739574+00:00",
+            "permit_status": "Select",
+            "permit_type": "Select"
+        },
+        "schema": "contract.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "contract_id": "Text",
+            "effective_date": "2019-04-23T22:40:42.739803+00:00",
+            "legal_name": "Text",
+            "permit_issued_date": "2019-04-23T22:40:42.739763+00:00",
+            "permit_status": "Select",
+            "permit_type": "Select",
+            "subcontract_id": "UUID",
+            "subcontractor_corp_num": "Text"
+        },
+        "schema": "subcontract.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "contract_id": "Text",
+            "effective_date": "2019-04-23T22:40:42.739926+00:00",
+            "payment_id": "UUID",
+            "permit_issued_date": "2019-04-23T22:40:42.739888+00:00",
+            "permit_status": "Select",
+            "permit_type": "Select"
+        },
+        "schema": "contract-payment.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "certification_id": "UUID",
+            "effective_date": "2019-04-23T22:40:42.740045+00:00",
+            "permit_issued_date": "2019-04-23T22:40:42.740008+00:00",
+            "permit_status": "Select",
+            "permit_type": "Select",
+            "subcontract_id": "Text"
+        },
+        "schema": "certificate-of-completion.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "certification_id": "Text",
+            "effective_date": "2019-04-23T22:40:42.740169+00:00",
+            "payment_id": "UUID",
+            "permit_issued_date": "2019-04-23T22:40:42.740132+00:00",
+            "permit_status": "Select",
+            "permit_type": "Select",
+            "subcontract_id": "Text"
+        },
+        "schema": "subcontract-payment.bcca",
+        "version": "1.0.0"
+    }
+]

@@ -1,5 +1,3 @@
-# Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
-
 forms:
   bccacontract:
     path: /bcca/contract
@@ -253,5 +251,3 @@ forms:
       - name: payment_id
         from: helper
         source: uuid
-
-### eof ###
