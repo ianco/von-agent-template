@@ -10,6 +10,9 @@ issuers:
         effective_date:
           input: effective_date
           from: claim
+        revoked_date:
+          input: expiry_date
+          from: claim
       topic:
         source_id:
           input: contract_id
@@ -21,18 +24,10 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: client_corp_num
+            input: corp_num
             from: value
           value:
-            input: client_corp_num
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: contractor_corp_num
-            from: value
-          value:
-            input: contractor_corp_num
+            input: corp_num
             from: claim
       - model: attribute
         fields:
@@ -45,11 +40,35 @@ issuers:
       - model: attribute
         fields:
           type:
+            input: contractor_corp_num
+            from: value
+          value:
+            input: contractor_corp_num
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contractor_legal_name
+            from: value
+          value:
+            input: contractor_legal_name
+            from: claim
+      - model: attribute
+        fields:
+          type:
             input: contract_id
             from: value
           value:
             input: contract_id
             from: claim
+      - model: name
+        fields:
+          text:
+            input: contract_name
+            from: claim
+          type:
+            input: contract_name
+            from: value
       - model: attribute
         fields:
           type:
@@ -88,15 +107,28 @@ issuers:
           value:
             input: effective_date
             from: claim
-    - description: The sub-contract credential awarded to a Trade/Sub-Contractor under
-        the General Contractor
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
+            from: claim
+    - description: The sub-contract credential awarded to a Trade/Sub
       schema: subcontract.bcca
       issuer_url: $ENDPOINT_URL/bcca/subcontract
       depends_on:
-      - dflow_registration
+      - bcca_contract
       credential:
         effective_date:
           input: effective_date
+          from: claim
+        revoked_date:
+          input: expiry_date
           from: claim
       topic:
         source_id:
@@ -105,9 +137,6 @@ issuers:
         type:
           input: registration
           from: value
-      cardinality_fields:
-      - - contract_id
-        - subcontract_id
       mapping:
       - model: attribute
         fields:
@@ -141,6 +170,14 @@ issuers:
           value:
             input: subcontract_id
             from: claim
+      - model: name
+        fields:
+          text:
+            input: subcontract_name
+            from: claim
+          type:
+            input: subcontract_name
+            from: value
       - model: attribute
         fields:
           type:
@@ -178,6 +215,17 @@ issuers:
             from: value
           value:
             input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim
     - description: The payment against the master contract
       schema: contract-payment.bcca
@@ -188,6 +236,9 @@ issuers:
         effective_date:
           input: effective_date
           from: claim
+        revoked_date:
+          input: expiry_date
+          from: claim
       topic:
         source_id:
           input: contract_id
@@ -196,8 +247,7 @@ issuers:
           input: registration
           from: value
       cardinality_fields:
-      - - contract_id
-        - payment_id
+      - payment_id
       mapping:
       - model: attribute
         fields:
@@ -253,8 +303,18 @@ issuers:
           value:
             input: effective_date
             from: claim
-    - description: The certification that work has been completed per the terms of
-        the sub-contract
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
+            from: claim
+    - description: The certification that work has been completed per terms
       schema: certificate-of-completion.bcca
       issuer_url: $ENDPOINT_URL/bcca/certificateofcompletion
       depends_on:
@@ -263,6 +323,9 @@ issuers:
         effective_date:
           input: effective_date
           from: claim
+        revoked_date:
+          input: expiry_date
+          from: claim
       topic:
         source_id:
           input: subcontract_id
@@ -324,15 +387,29 @@ issuers:
             from: value
           value:
             input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim
     - description: The payment against a sub-contract based on completion of work
       schema: subcontract-payment.bcca
       issuer_url: $ENDPOINT_URL/bcca/subcontractpayment
       depends_on:
-      - bcca_subcontract
+      - bcca_certificateofcompletion
       credential:
         effective_date:
           input: effective_date
+          from: claim
+        revoked_date:
+          input: expiry_date
           from: claim
       topic:
         source_id:
@@ -403,4 +480,111 @@ issuers:
             from: value
           value:
             input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
+            from: claim
+    - description: Relationship between a Contract and the Client or General Contractor
+      schema: contract_relationship.bcca
+      issuer_url: $ENDPOINT_URL/bcca/contractor_relationship
+      credential:
+        effective_date:
+          input: effective_date
+          from: claim
+        revoked_date:
+          input: expiry_date
+          from: claim
+      topic:
+        source_id:
+          input: source_id
+          from: claim
+        type:
+          input: registration
+          from: value
+        related_source_id:
+          input: associated_source_id
+          from: claim
+        related_type:
+          input: registration
+          from: value
+      cardinality_fields:
+      - associated_source_id
+      mapping:
+      - model: attribute
+        fields:
+          type:
+            input: source_id
+            from: value
+          value:
+            input: source_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: source_name
+            from: value
+          value:
+            input: source_name
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: associated_source_id
+            from: value
+          value:
+            input: associated_source_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: associated_source_name
+            from: value
+          value:
+            input: associated_source_name
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: relationship_type
+            from: value
+          value:
+            input: relationship_type
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: relationship_description
+            from: value
+          value:
+            input: relationship_description
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: effective_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim

@@ -12,16 +12,24 @@ forms:
       id: dflow_registration
       connection_id: bctob
     fields:
-    - name: client_corp_num
-      label: client_corp_num
+    - name: corp_num
+      label: corp_num
+      type: text
+      required: true
+    - name: legal_name
+      label: legal_name
       type: text
       required: true
     - name: contractor_corp_num
       label: contractor_corp_num
       type: text
       required: true
-    - name: legal_name
-      label: legal_name
+    - name: contractor_legal_name
+      label: contractor_legal_name
+      type: text
+      required: true
+    - name: contract_name
+      label: contract_name
       type: text
       required: true
     - name: permit_type
@@ -48,6 +56,10 @@ forms:
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mappings:
       attributes:
       - name: contract_id
@@ -60,11 +72,10 @@ forms:
     page_title: Title for subcontract.bcca
     title: Title for subcontract.bcca
     template: bcgov.index.html
-    description: The sub-contract credential awarded to a Trade/Sub-Contractor under
-      the General Contractor
+    description: The sub-contract credential awarded to a Trade/Sub
     explanation: Use the form below to issue a Credential.
     proof_request:
-      id: dflow_registration
+      id: bcca_contract
       connection_id: bctob
     fields:
     - name: subcontractor_corp_num
@@ -79,6 +90,10 @@ forms:
       label: contract_id
       type: text
       required: true
+    - name: subcontract_name
+      label: subcontract_name
+      type: text
+      required: true
     - name: permit_type
       label: permit_type
       type: select
@@ -103,6 +118,10 @@ forms:
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mappings:
       attributes:
       - name: subcontract_id
@@ -149,6 +168,10 @@ forms:
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mappings:
       attributes:
       - name: payment_id
@@ -161,8 +184,7 @@ forms:
     page_title: Title for certificate-of-completion.bcca
     title: Title for certificate-of-completion.bcca
     template: bcgov.index.html
-    description: The certification that work has been completed per the terms of the
-      sub-contract
+    description: The certification that work has been completed per terms
     explanation: Use the form below to issue a Credential.
     proof_request:
       id: bcca_subcontract
@@ -196,6 +218,10 @@ forms:
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mappings:
       attributes:
       - name: certification_id
@@ -211,7 +237,7 @@ forms:
     description: The payment against a sub-contract based on completion of work
     explanation: Use the form below to issue a Credential.
     proof_request:
-      id: bcca_subcontract
+      id: bcca_certificateofcompletion
       connection_id: bctob
     fields:
     - name: subcontract_id
@@ -246,8 +272,60 @@ forms:
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mappings:
       attributes:
       - name: payment_id
         from: helper
         source: uuid
+  bccacontractor_relationship:
+    path: /bcca/contractor_relationship
+    type: issue-credential
+    schema_name: contract_relationship.bcca
+    page_title: Title for contract_relationship.bcca
+    title: Title for contract_relationship.bcca
+    template: bcgov.index.html
+    description: Relationship between a Contract and the Client or General Contractor
+    explanation: Use the form below to issue a Credential.
+    fields:
+    - name: source_id
+      label: source_id
+      type: text
+      required: true
+    - name: source_name
+      label: source_name
+      type: text
+      required: true
+    - name: associated_source_id
+      label: associated_source_id
+      type: text
+      required: true
+    - name: associated_source_name
+      label: associated_source_name
+      type: text
+      required: true
+    - name: relationship_type
+      label: relationship_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: relationship_description
+      label: relationship_description
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    mappings:
+      attributes: []

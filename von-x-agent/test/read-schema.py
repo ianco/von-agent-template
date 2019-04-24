@@ -182,6 +182,14 @@ with open(in_file, 'r') as stream:
             service['topic']['type'] = bare_dict()
             service['topic']['type']['input'] = 'registration'
             service['topic']['type']['from'] = 'value'
+            # for relationship:
+            if 'related_topic' in schema:
+                service['topic']['related_source_id'] = bare_dict()
+                service['topic']['related_source_id']['input'] = schema['related_topic']
+                service['topic']['related_source_id']['from'] = 'claim'
+                service['topic']['related_type'] = bare_dict()
+                service['topic']['related_type']['input'] = 'registration'
+                service['topic']['related_type']['from'] = 'value'
             if 'cardinality' in schema:
                 service['cardinality_fields'] = bare_array()
                 service['cardinality_fields'].append(schema['cardinality'])
