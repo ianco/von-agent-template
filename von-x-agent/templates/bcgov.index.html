@@ -55,6 +55,7 @@
         {% if proof_response %}
         {% if proof_response.success == True %}
             <p>{{ explanation }}</p>
+            {% include "bootstrap-vue.form.html" %}
             {% include "bootstrap.form.html" %}
         {% else %}
             <h3>
@@ -63,6 +64,7 @@
         {% endif %}
         {% else %}
             <p>{{ explanation }}</p>
+            {% include "bootstrap-vue.form.html" %}
             {% include "bootstrap.form.html" %}
         {% endif %}
         </div>
