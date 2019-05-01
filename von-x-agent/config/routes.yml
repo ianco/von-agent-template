@@ -16,24 +16,24 @@ forms:
       id: dflow_registration
       connection_id: bctob
     fields:
-    - name: corp_num
-      label: corp_num
+    - name: contract_name
+      label: contract_name
       type: text
       required: true
     - name: legal_name
       label: legal_name
       type: text
       required: true
-    - name: contractor_corp_num
-      label: contractor_corp_num
-      type: text
+    - name: permit_status
+      label: permit_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
       required: true
     - name: contractor_legal_name
       label: contractor_legal_name
-      type: text
-      required: true
-    - name: contract_name
-      label: contract_name
       type: text
       required: true
     - name: permit_type
@@ -48,23 +48,27 @@ forms:
       label: permit_issued_date
       type: date
       required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
+    - name: corp_num
+      label: corp_num
+      type: text
       required: true
     - name: expiry_date
       label: expiry_date
       type: date
       required: false
-    mappings:
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: contractor_corp_num
+      label: contractor_corp_num
+      type: text
+      required: true
+    - name: contract_location
+      label: Mailing Address
+      type: address
+      required: true
+    mapping:
       attributes:
       - name: contract_id
         from: helper
@@ -82,10 +86,6 @@ forms:
       id: bcca_contract
       connection_id: bctob
     fields:
-    - name: subcontractor_corp_num
-      label: subcontractor_corp_num
-      type: text
-      required: true
     - name: legal_name
       label: legal_name
       type: text
@@ -94,9 +94,13 @@ forms:
       label: contract_id
       type: text
       required: true
-    - name: subcontract_name
-      label: subcontract_name
-      type: text
+    - name: permit_status
+      label: permit_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
       required: true
     - name: permit_type
       label: permit_type
@@ -110,23 +114,23 @@ forms:
       label: permit_issued_date
       type: date
       required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
+    - name: subcontractor_corp_num
+      label: subcontractor_corp_num
+      type: text
       required: true
     - name: expiry_date
       label: expiry_date
       type: date
       required: false
-    mappings:
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: subcontract_name
+      label: subcontract_name
+      type: text
+      required: true
+    mapping:
       attributes:
       - name: subcontract_id
         from: helper
@@ -144,21 +148,17 @@ forms:
       id: bcca_contract
       connection_id: bctob
     fields:
-    - name: contract_id
-      label: contract_id
-      type: text
-      required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
     - name: permit_issued_date
       label: permit_issued_date
       type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    - name: contract_id
+      label: contract_id
+      type: text
       required: true
     - name: permit_status
       label: permit_status
@@ -172,11 +172,15 @@ forms:
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    mappings:
+    - name: permit_type
+      label: permit_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    mapping:
       attributes:
       - name: payment_id
         from: helper
@@ -194,21 +198,17 @@ forms:
       id: bcca_subcontract
       connection_id: bctob
     fields:
-    - name: subcontract_id
-      label: subcontract_id
-      type: text
-      required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
     - name: permit_issued_date
       label: permit_issued_date
       type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    - name: subcontract_id
+      label: subcontract_id
+      type: text
       required: true
     - name: permit_status
       label: permit_status
@@ -222,11 +222,15 @@ forms:
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    mappings:
+    - name: permit_type
+      label: permit_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    mapping:
       attributes:
       - name: certification_id
         from: helper
@@ -244,9 +248,13 @@ forms:
       id: bcca_certificateofcompletion
       connection_id: bctob
     fields:
-    - name: subcontract_id
-      label: subcontract_id
-      type: text
+    - name: permit_status
+      label: permit_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
       required: true
     - name: certification_id
       label: certification_id
@@ -264,23 +272,19 @@ forms:
       label: permit_issued_date
       type: date
       required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    - name: subcontract_id
+      label: subcontract_id
+      type: text
       required: true
     - name: effective_date
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    mappings:
+    mapping:
       attributes:
       - name: payment_id
         from: helper
@@ -295,20 +299,12 @@ forms:
     description: Relationship between a Contract and the Client or General Contractor
     explanation: Use the form below to issue a Credential.
     fields:
-    - name: source_id
-      label: source_id
-      type: text
-      required: true
-    - name: source_name
-      label: source_name
-      type: text
-      required: true
     - name: associated_source_id
       label: associated_source_id
       type: text
       required: true
-    - name: associated_source_name
-      label: associated_source_name
+    - name: source_name
+      label: source_name
       type: text
       required: true
     - name: relationship_type
@@ -319,6 +315,14 @@ forms:
       - todo-2
       - todo-3
       required: true
+    - name: associated_source_name
+      label: associated_source_name
+      type: text
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     - name: relationship_description
       label: relationship_description
       type: text
@@ -327,11 +331,11 @@ forms:
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    mappings:
+    - name: source_id
+      label: source_id
+      type: text
+      required: true
+    mapping:
       attributes: []
 # end of auto-generated content
 ###################################################

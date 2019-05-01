@@ -61,7 +61,7 @@
                                           autocomplete="off"
                                           placeholder="Type to search"
                                           :required="field.required"
-                                          :disabled"field.disabled"/>
+                                          :disabled="field.disabled"/>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                         class="form-control mrgn-tp-sm" type="text"
                                         :name="field.name+'address_line_2'"
                                         :id="field.name+'line2-input'"
-                                        :disabled"field.disabled"/>
+                                        :disabled="field.disabled"/>
                                 </div>
                             </div>
                             <div class="row form-field">
@@ -84,7 +84,7 @@
                                         :name="field.name+'city'"
                                         :id="field.name+'city-input'"
                                         :required="field.required"
-                                        :disabled"field.disabled"/>
+                                        :disabled="field.disabled"/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="control-label" :for="field.name+'province-input'">
@@ -95,7 +95,7 @@
                                         :name="field.name+'province'"
                                         :id="field.name+'province-input'"
                                         :required="field.required"
-                                        :disabled"field.disabled">
+                                        :disabled="field.disabled">
                                             <option value="AB">Alberta</option>
                                             <option value="BC" selected>British Columbia</option>
                                             <option value="MB">Manitoba</option>
@@ -122,7 +122,7 @@
                                         :name="field.name+'postal_code'"
                                         :id="field.name+'postal_code-input'"
                                         :required="field.required"
-                                        :disabled"field.disabled"/>
+                                        :disabled="field.disabled"/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="control-label" :for="field.name+'country-input'">
@@ -133,7 +133,7 @@
                                         :name="field.name+'country'"
                                         :id="field.name+'country-input'"
                                         :required="field.required"
-                                        :disabled"field.disabled">
+                                        :disabled="field.disabled">
                                             <option value="CA" selected>Canada</option>
                                     </select>
                                 </div>
@@ -289,9 +289,7 @@ var app = new Vue({
       // TODO fix hack to replace host with localhost
       var cur_url = window.location.href;
       var cur_path = cur_url.split("?");
-      var cur_protocol = cur_path[0].split("//");
-      var cur_host = cur_protocol[1].split(":");
-      var url = cur_protocol[0] + "//localhost:" + cur_host[1] + ".vars?" + cur_path[1];
+      var url = window.location.pathname + ".vars?" + cur_path[1];
       axios
         .get(url)
         .then(response => {
@@ -300,16 +298,17 @@ var app = new Vue({
           for (var i=0; i<this.config.fields.length; i++) {
             var field = this.config.fields[i];
             // special case field handling for address, open_close
-            if (field['type'] in ['address', 'open_close']) {
+            var special_includes = ['address', 'open_close'];
+            if (special_includes.indexOf(field['type']) > -1) {
                 var exts = [];
                 if (field['type'] === 'address') {
-                    exts = ['-addressee', '-address_line_1', '-address_line_2', '-city', '-province', '-postal_code', '-country'];
+                    exts = ['addressee', 'address_line_1', 'address_line_2', 'city', 'province', 'postal_code', 'country'];
                 } else if (field['type'] === 'open_close') {
-                    exts = ['-open', '-close'];
+                    exts = [field['name']+'-open', field['name']+'-close'];
                 }
                 for (var j=0; j<exts.length; j++) {
                     var ext = exts[j];
-                    var field_name = field['name'] + ext;
+                    var field_name = ext;
                     if (field_name in this.config.inputs) {
                         this.values[field_name] = this.config.inputs[field_name];
                     } else {

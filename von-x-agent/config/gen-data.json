@@ -1,351 +1,95 @@
-{ "the following are the 3 corporate entities involved - Client, General Contractor and Trade":
 [
     {
         "attributes": {
-            "address_line_1": "3644 Holdom Avenue",
-            "address_line_2": "",
-            "addressee": "Ms. Frances T Worrell",
-            "city": "Surrey",
-            "corp_num": "MinitryOfEDID",
-            "country": "CA",
-            "entity_name_effective": "2009-07-19",
-            "entity_status": "Active",
-            "entity_status_effective": "2009-07-19",
-            "entity_type": "BC Company",
-            "legal_name": "Ministry of Education",
-            "postal_code": "V3T 4Y5",
-            "province": "BC",
-            "reason_description": "Filing:REGST",
-            "registration_date": "2009-07-19"
-        },
-        "schema": "Registered Corporation",
-        "version": "1.0.3"
-    },
-    {
-        "attributes": {
-            "address_line_1": "4246 King George Hwy",
-            "address_line_2": "",
-            "addressee": "Mr. Michael W Elson",
-            "city": "Surrey",
-            "corp_num": "JoeConstID",
-            "country": "CA",
-            "entity_name_effective": "2012-08-23",
-            "entity_status": "Active",
-            "entity_status_effective": "2012-08-23",
-            "entity_type": "Sole Proprietorship",
-            "legal_name": "Joe's Construction",
-            "postal_code": "V3W 4E3",
-            "province": "BC",
-            "reason_description": "Filing:FRREG",
-            "registration_date": "2012-08-23"
-        },
-        "schema": "Registered Corporation",
-        "version": "1.0.3"
-    },
-    {
-        "attributes": {
-            "address_line_1": "2645 King George Hwy",
-            "address_line_2": "",
-            "addressee": "Mr. Jerry R Locke",
-            "city": "Surrey",
-            "corp_num": "ElecStuffID",
-            "country": "CA",
-            "entity_name_effective": "2008-11-25",
-            "entity_status": "Active",
-            "entity_status_effective": "2008-11-25",
-            "entity_type": "Sole Proprietorship",
-            "legal_name": "Electrical Stuff",
-            "postal_code": "V3W 4E3",
-            "province": "BC",
-            "reason_description": "Filing:FRREG",
-            "registration_date": "2008-11-25"
-        },
-        "schema": "Registered Corporation",
-        "version": "1.0.3"
-    },
-    {
-        "attributes": {
-            "address_line_1": "2481 Holdom Avenue",
-            "address_line_2": "",
-            "addressee": "Dr. Anthony H Williams",
-            "city": "Surrey",
-            "corp_num": "PlumberID",
-            "country": "CA",
-            "entity_name_effective": "2007-01-13",
-            "entity_status": "Active",
-            "entity_status_effective": "2007-01-13",
-            "entity_type": "BC Company",
-            "legal_name": "Fred's Plumbing",
-            "postal_code": "V3T 4Y5",
-            "province": "BC",
-            "reason_description": "Filing:REGST",
-            "registration_date": "2007-01-13"
-        },
-        "schema": "Registered Corporation",
-        "version": "1.0.3"
-    }
-]
-, "the following is the main contract":
-[
-    {
-        "attributes": {
-            "contract_id": "MyContractId101",
-            "contract_name": "New School 101",
-            "contractor_corp_num": "JoeConstID",
-            "contractor_legal_name": "Joe's Construction",
-            "corp_num": "MinitryOfEDID",
-            "effective_date": "2019-02-01T16:26:29.531694+00:00",
-            "legal_name": "Ministry of Education",
-            "permit_issued_date": "2019-02-01T16:26:29.531611+00:00",
-            "permit_status": "Status 1",
-            "permit_type": "Type 1"
-        },
-        "schema": "contract.bcca",
+            "address_line_1": "Text", 
+            "addressee": "Text", 
+            "city": "Text", 
+            "contract_id": "UUID", 
+            "contract_name": "Name", 
+            "contractor_corp_num": "Text", 
+            "contractor_legal_name": "Text", 
+            "corp_num": "Text", 
+            "country": "Text", 
+            "effective_date": "2019-05-01T00:00:29.498293+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.498257+00:00", 
+            "legal_name": "Text", 
+            "permit_issued_date": "2019-05-01T00:00:29.498180+00:00", 
+            "permit_status": "Select", 
+            "permit_type": "Select", 
+            "postal_code": "Text", 
+            "province": "Text"
+        }, 
+        "schema": "contract.bcca", 
         "version": "1.0.0"
-    },
+    }, 
     {
         "attributes": {
-            "associated_source_id": "JoeConstID",
-            "associated_source_name": "Joe's Construction",
-            "effective_date": "2019-02-01T16:26:29.532471+00:00",
-            "relationship_description": "General Contractor",
-            "relationship_type": "Contractor",
-            "source_id": "MyContractId101",
-            "source_name": "New School 101"
-        },
-        "schema": "contract_relationship.bcca",
+            "contract_id": "Text", 
+            "effective_date": "2019-05-01T00:00:29.499643+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.499611+00:00", 
+            "legal_name": "Text", 
+            "permit_issued_date": "2019-05-01T00:00:29.499564+00:00", 
+            "permit_status": "Select", 
+            "permit_type": "Select", 
+            "subcontract_id": "UUID", 
+            "subcontract_name": "Name", 
+            "subcontractor_corp_num": "Text"
+        }, 
+        "schema": "subcontract.bcca", 
         "version": "1.0.0"
-    },
+    }, 
     {
         "attributes": {
-            "source_id": "JoeConstID",
-            "source_name": "Joe's Construction",
-            "effective_date": "2019-02-01T16:26:29.532471+00:00",
-            "relationship_description": "Contract",
-            "relationship_type": "Contract",
-            "associated_source_id": "MyContractId101",
-            "associated_source_name": "New School 101"
-        },
-        "schema": "contract_relationship.bcca",
+            "contract_id": "Text", 
+            "effective_date": "2019-05-01T00:00:29.500284+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.500254+00:00", 
+            "payment_id": "UUID", 
+            "permit_issued_date": "2019-05-01T00:00:29.500215+00:00", 
+            "permit_status": "Select", 
+            "permit_type": "Select"
+        }, 
+        "schema": "contract-payment.bcca", 
         "version": "1.0.0"
-    },
+    }, 
     {
         "attributes": {
-            "associated_source_id": "MinitryOfEDID",
-            "associated_source_name": "Ministry of Education",
-            "effective_date": "2019-02-01T16:26:29.532471+00:00",
-            "relationship_description": "Client",
-            "relationship_type": "Client",
-            "source_id": "MyContractId101",
-            "source_name": "New School 101"
-        },
-        "schema": "contract_relationship.bcca",
+            "certification_id": "UUID", 
+            "effective_date": "2019-05-01T00:00:29.500827+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.500797+00:00", 
+            "permit_issued_date": "2019-05-01T00:00:29.500763+00:00", 
+            "permit_status": "Select", 
+            "permit_type": "Select", 
+            "subcontract_id": "Text"
+        }, 
+        "schema": "certificate-of-completion.bcca", 
         "version": "1.0.0"
-    },
+    }, 
     {
         "attributes": {
-            "source_id": "MinitryOfEDID",
-            "source_name": "Ministry of Education",
-            "effective_date": "2019-02-01T16:26:29.532471+00:00",
-            "relationship_description": "Contract",
-            "relationship_type": "Contract",
-            "associated_source_id": "MyContractId101",
-            "associated_source_name": "New School 101"
-        },
-        "schema": "contract_relationship.bcca",
+            "certification_id": "Text", 
+            "effective_date": "2019-05-01T00:00:29.501466+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.501437+00:00", 
+            "payment_id": "UUID", 
+            "permit_issued_date": "2019-05-01T00:00:29.501400+00:00", 
+            "permit_status": "Select", 
+            "permit_type": "Select", 
+            "subcontract_id": "Text"
+        }, 
+        "schema": "subcontract-payment.bcca", 
+        "version": "1.0.0"
+    }, 
+    {
+        "attributes": {
+            "associated_source_id": "Text", 
+            "associated_source_name": "Text", 
+            "effective_date": "2019-05-01T00:00:29.501990+00:00", 
+            "expiry_date": "2019-05-01T00:00:29.501958+00:00", 
+            "relationship_description": "Text", 
+            "relationship_type": "Select", 
+            "source_id": "Text", 
+            "source_name": "Text"
+        }, 
+        "schema": "contract_relationship.bcca", 
         "version": "1.0.0"
     }
 ]
-, "the following is the sub-contract for the trade":
-[
-    {
-        "attributes": {
-            "contract_id": "MyContractId101",
-            "effective_date": "2019-03-01T16:26:29.531881+00:00",
-            "legal_name": "New School 101",
-            "permit_issued_date": "2019-03-01T16:26:29.531844+00:00",
-            "permit_status": "New",
-            "permit_type": "123 Type",
-            "subcontract_id": "ElecSubContractID",
-            "subcontract_name": "Electrical Work Subcontract",
-            "subcontractor_corp_num": "ElecStuffID"
-        },
-        "schema": "subcontract.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "associated_source_id": "MyContractId101",
-            "associated_source_name": "New School 101",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Contract",
-            "relationship_type": "Contract",
-            "source_id": "ElecSubContractID",
-            "source_name": "Electrical Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "source_id": "MyContractId101",
-            "source_name": "New School 101",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contract",
-            "relationship_type": "Sub-Contract",
-            "associated_source_id": "ElecSubContractID",
-            "associated_source_name": "Electrical Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "associated_source_id": "ElecStuffID",
-            "associated_source_name": "Electrical Stuff",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contractor",
-            "relationship_type": "Sub-Contractor",
-            "source_id": "ElecSubContractID",
-            "source_name": "Electrical Stuff"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "source_id": "ElecStuffID",
-            "source_name": "Electrical Stuff",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contract",
-            "relationship_type": "Sub-Contract",
-            "associated_source_id": "ElecSubContractID",
-            "associated_source_name": "Electrical Stuff"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    }
-]
-, "the following is the sub-contract for the *other* trade":
-[
-    {
-        "attributes": {
-            "contract_id": "MyContractId101",
-            "effective_date": "2019-03-01T16:26:29.531881+00:00",
-            "legal_name": "New School 101",
-            "permit_issued_date": "2019-03-01T16:26:29.531844+00:00",
-            "permit_status": "New",
-            "permit_type": "123 Type",
-            "subcontract_id": "PlumbSubContractID",
-            "subcontract_name": "Plumbing Work Subcontract",
-            "subcontractor_corp_num": "PlumberID"
-        },
-        "schema": "subcontract.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "associated_source_id": "MyContractId101",
-            "associated_source_name": "New School 101",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Contract",
-            "relationship_type": "Contract",
-            "source_id": "PlumbSubContractID",
-            "source_name": "Plumbing Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "source_id": "MyContractId101",
-            "source_name": "Fred's Plumbing",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contract",
-            "relationship_type": "Sub-Contract",
-            "associated_source_id": "PlumbSubContractID",
-            "associated_source_name": "Plumbing Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "associated_source_id": "PlumberID",
-            "associated_source_name": "Fred's Plumbing",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contractor",
-            "relationship_type": "Sub-Contractor",
-            "source_id": "PlumbSubContractID",
-            "source_name": "Plumbing Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "source_id": "PlumberID",
-            "source_name": "New School 101",
-            "effective_date": "2019-03-01T16:26:29.532471+00:00",
-            "relationship_description": "Sub-Contract",
-            "relationship_type": "Sub-Contract",
-            "associated_source_id": "PlumbSubContractID",
-            "associated_source_name": "Plumbing Work Subcontract"
-        },
-        "schema": "contract_relationship.bcca",
-        "version": "1.0.0"
-    }
-]
-, "the following are the payments for the contract and sub-contract":
-[
-    {
-        "attributes": {
-            "contract_id": "MyContractId101",
-            "effective_date": "2019-03-24T16:26:29.532034+00:00",
-            "payment_id": "Payment1",
-            "permit_issued_date": "2019-03-24T16:26:29.531998+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some"
-        },
-        "schema": "contract-payment.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "contract_id": "MyContractId101",
-            "effective_date": "2019-04-24T16:26:29.532034+00:00",
-            "payment_id": "Payment2",
-            "permit_issued_date": "2019-04-24T16:26:29.531998+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some"
-        },
-        "schema": "contract-payment.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "certification_id": "ElecCertification1",
-            "effective_date": "2019-04-24T16:26:29.532185+00:00",
-            "permit_issued_date": "2019-04-24T16:26:29.532150+00:00",
-            "permit_status": "Ok",
-            "permit_type": "Ok",
-            "subcontract_id": "ElecSubContractID"
-        },
-        "schema": "certificate-of-completion.bcca",
-        "version": "1.0.0"
-    },
-    {
-        "attributes": {
-            "certification_id": "ElecCertification1",
-            "effective_date": "2019-04-24T16:26:29.532348+00:00",
-            "payment_id": "SubPayment1",
-            "permit_issued_date": "2019-04-24T16:26:29.532309+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some",
-            "subcontract_id": "ElecSubContractID"
-        },
-        "schema": "subcontract-payment.bcca",
-        "version": "1.0.0"
-    }
-]
-}
