@@ -223,7 +223,8 @@
                     </span>
                 </div>
                 </span>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" 
+                        v-bind:class="{ loading: isSubmitting }">
                     <span class="fa fa-check"></span>
                     Submit
                 </button>
@@ -363,16 +364,11 @@ var app = new Vue({
     message: 'Hello Vue!',
     loading: true,
     errored: false,
+    isSubmitting: false,
     config: {},
     values: {},
-    some_temp_value: '',
   },
   watch: {
-    some_temp_value: {
-      handler: function () {
-        console.log('some_temp_value Changed! ', this.some_temp_value)
-      }
-    },
     'values.address_line_1': {
       handler: function () {
         console.log('values.address_line_1 Changed! ', this.values.address_line_1)
@@ -385,8 +381,26 @@ var app = new Vue({
   },
   methods: {
     submitCredentials : function(){
-      //this.$refs.form.$el.submit()
-      console.log("on submitCredentials click", this.values)
+      this.isSubmitting = true;
+
+      axios.post(this.config.path, JSON.stringify({'attributes': this.values}))
+            .then(response => {
+                this.responseData = response.data
+                console.log('Result: ', this.responseData)
+                
+                // here we need to build the relationships to related credentials
+
+                // let user know we are done
+                window.alert(JSON.stringify(this.responseData))
+                this.isSubmitting = false;      
+            })
+            .catch(error => {
+                window.alert(error)
+                this.isSubmitting = false;      
+            });
+    },
+    submitCredentialRelationships : function(){
+      console.log("call to submitCredentialRelationships()");
     },
     updateAddressSearch: function (event) {
       // `this` inside methods points to the Vue instance
@@ -442,7 +456,6 @@ var app = new Vue({
                 this.values[field] = '';
             }            
           }
-          console.log({'final values': this.values });
         })
         .catch(error => {
           console.log(error)
