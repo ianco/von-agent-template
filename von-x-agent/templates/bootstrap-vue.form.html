@@ -367,6 +367,7 @@ var app = new Vue({
     isSubmitting: false,
     config: {},
     values: {},
+    related_credentials: null,
   },
   watch: {
     'values.address_line_1': {
@@ -388,7 +389,64 @@ var app = new Vue({
                 this.responseData = response.data
                 console.log('Result: ', this.responseData)
                 
-                // here we need to build the relationships to related credentials
+                if (this.related_credentials) {
+                    console.log(this.related_credentials);
+                    // here we need to build the relationships to related credentials
+                    var creds = [];
+                    for (cred_name in this.related_credentials) {
+                        var cred = { "attributes" : {} };
+                        var related_cred = { "attributes" : {} };
+                        var related_credential = this.related_credentials[cred_name];
+                        for (attr in related_credential) {
+                            var val = related_credential[attr];
+                            if (attr === 'related_schema') {
+                                cred["schema"] = val;
+                                related_cred["schema"] = val;
+                            } else if (attr === 'related_schema_version') {
+                                cred["version"] = val;
+                                related_cred["version"] = val;
+                            } else if (attr === 'relationship_type') {
+                                cred["attributes"]["relationship_type"] = val;
+                            } else if (attr === 'relationship_description') {
+                                cred["attributes"]["relationship_description"] = val;
+                            } else if (attr === 'related_relationship_type') {
+                                related_cred["attributes"]["relationship_type"] = val;
+                            } else if (attr === 'related_relationship_description') {
+                                related_cred["attributes"]["relationship_description"] = val;
+                            } else if (attr === 'topic') {
+                                cred["attributes"]["source_id"] = this.responseData["credential"][val];
+                                related_cred["attributes"]["associated_source_id"] = this.responseData["credential"][val];
+                            } else if (attr === 'topic_name') {
+                                cred["attributes"]["source_name"] = this.responseData["credential"][val];
+                                related_cred["attributes"]["associated_source_name"] = this.responseData["credential"][val];
+                            } else if (attr === 'related_topic') {
+                                cred["attributes"]["associated_source_id"] = this.responseData["credential"][val];
+                                related_cred["attributes"]["source_id"] = this.responseData["credential"][val];
+                            } else if (attr === 'related_topic_name') {
+                                cred["attributes"]["associated_source_name"] = this.responseData["credential"][val];
+                                related_cred["attributes"]["source_name"] = this.responseData["credential"][val];
+                            } else {
+                                cred["attributes"][attr] = this.responseData["credential"][val];
+                                related_cred["attributes"][attr] = this.responseData["credential"][val];
+                            }
+                        }
+                        creds.push(cred);
+                        creds.push(related_cred);
+                    }
+                    console.log(creds);
+
+                    var url_path = this.config.path.split("/");
+                    var issue_cred_path = "/" + url_path[1] + "/issue-credential";
+                    console.log(issue_cred_path);
+                    axios.post(issue_cred_path, JSON.stringify(creds))
+                            .then(response => {
+                                // TBD figure out what to do with response
+                                console.log('Result: ', response.data);
+                            })
+                            .catch(error => {
+                                window.alert(error)
+                            });
+                }
 
                 // let user know we are done
                 window.alert(JSON.stringify(this.responseData))
@@ -419,6 +477,17 @@ var app = new Vue({
           this.config = response.data;
           this.config.path = this.config.path.replace('.vars', '');
           this.values = {};
+          this.related_credentials = null;
+          if (this.config.related_credentials) {
+            this.related_credentials = {};
+            for (cred_name in this.config.related_credentials) {
+                var cred = {};
+                for (attr in this.config.related_credentials[cred_name]) {
+                    cred[attr] = this.config.related_credentials[cred_name][attr];
+                }
+                this.related_credentials[cred_name] = cred;
+            }
+          }
           for (var i=0; i<this.config.fields.length; i++) {
             var field = this.config.fields[i];
             // special case field handling for address, open_close

@@ -10,12 +10,27 @@
   related_credentials: 
     client:
       related_schema: contract_relationship.bcca
+      related_schema_version: 1.0.0
       topic: contract_id
+      topic_name: contract_name
       related_topic: corp_num
+      related_topic_name: legal_name
+      effective_date: effective_date
+      relationship_type: Client
+      relationship_description: Client
+      related_relationship_type: Contract
+      related_relationship_description: Contract
     contractor:
       related_schema: contract_relationship.bcca
       topic: contract_id
+      topic_name: contract_name
       related_topic: contractor_corp_num
+      related_topic_name: contractor_legal_name
+      effective_date: effective_date
+      relationship_type: Contractor
+      relationship_description: General Contractor
+      related_relationship_type: Contract
+      related_relationship_description: Contract
   # optionally identify the credential attribute to map to the TOB credential effective date
   effective_date: effective_date
   # optionally identify the credential attribute to map to the TOB credential revoked date
@@ -95,11 +110,25 @@
     corporation:
       related_schema: contract_relationship.bcca
       topic: subcontract_id
+      topic_name: subcontract_name
       related_topic: subcontractor_corp_num
+      related_topic_name: legal_name
+      effective_date: effective_date
+      relationship_type: Sub-Contract
+      relationship_description: Sub-Contract
+      related_relationship_type: Sub-Contractor
+      related_relationship_description: Sub-Contractor
     contract:
       related_schema: contract_relationship.bcca
       topic: subcontract_id
+      topic_name: subcontract_name
       related_topic: contract_id
+      related_topic_name: contract_name
+      effective_date: effective_date
+      relationship_type: Sub-Contract
+      relationship_description: Sub-Contract
+      related_relationship_type: Contract
+      related_relationship_description: Contract
   # optionally identify additional attributes to uniquely identify a credential
   #cardinality: - subcontract_id
   # optionally identify the credential attribute to map to the TOB credential effective date
@@ -123,6 +152,11 @@
       description: Contract ID issued by the contracting organization
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_text
+      required: true
+    contract_name:
+      description: Contract Name
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_name
       required: true
     subcontract_id:
       description: Sub-Contract ID issued by the general contractor

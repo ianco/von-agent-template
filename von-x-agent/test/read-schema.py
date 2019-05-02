@@ -295,6 +295,13 @@ with open(in_file, 'r') as stream:
                 routes['forms'][form_name]['proof_request'] = bare_dict()
                 routes['forms'][form_name]['proof_request']['id'] = schema['proof_request']
                 routes['forms'][form_name]['proof_request']['connection_id'] = 'bctob'
+            if 'related_credentials' in schema:
+                routes['forms'][form_name]['related_credentials'] = bare_dict()
+                for related_cred in schema['related_credentials']:
+                    routes['forms'][form_name]['related_credentials'][related_cred] = bare_dict()
+                    for attr in schema['related_credentials'][related_cred]:
+                        routes['forms'][form_name]['related_credentials'][related_cred][attr] = schema['related_credentials'][related_cred][attr]
+
             # optionally can serve javascript
             #js_includes:
             #  - src: js/bc_registries.js

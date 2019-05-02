@@ -15,6 +15,28 @@ forms:
     proof_request:
       id: dflow_registration
       connection_id: bctob
+    related_credentials:
+      client:
+        related_relationship_description: Contract
+        related_schema_version: 1.0.0
+        topic_name: contract_name
+        related_relationship_type: Contract
+        topic: contract_id
+        effective_date: effective_date
+        related_schema: contract_relationship.bcca
+        relationship_description: Client
+        relationship_type: Client
+        related_topic: corp_num
+      contractor:
+        related_relationship_description: Contract
+        topic_name: contract_name
+        related_relationship_type: Contract
+        topic: contract_id
+        relationship_type: Contractor
+        related_schema: contract_relationship.bcca
+        relationship_description: General Contractor
+        effective_date: effective_date
+        related_topic: contractor_corp_num
     fields:
     - name: contract_name
       label: contract_name
@@ -85,6 +107,27 @@ forms:
     proof_request:
       id: bcca_contract
       connection_id: bctob
+    related_credentials:
+      corporation:
+        related_relationship_description: Sub-Contractor
+        topic_name: subcontract_name
+        related_relationship_type: Sub-Contractor
+        topic: subcontract_id
+        relationship_type: Sub-Contract
+        related_schema: contract_relationship.bcca
+        relationship_description: Sub-Contract
+        effective_date: effective_date
+        related_topic: subcontractor_corp_num
+      contract:
+        related_relationship_description: Contract
+        topic_name: subcontract_name
+        related_relationship_type: Contract
+        topic: subcontract_id
+        relationship_type: Sub-Contract
+        related_schema: contract_relationship.bcca
+        relationship_description: Sub-Contract
+        effective_date: effective_date
+        related_topic: contract_id
     fields:
     - name: legal_name
       label: legal_name
