@@ -6,7 +6,7 @@
 
 {% raw %}
 <div id="app">
-<form :action="config.path" method="POST"
+<form :action="config.path" method="POST" @submit.prevent="submitCredentials"
       accept-charset="utf-8" enctype="multipart/form-data" name=""
       class="form well">
     <fieldset>
@@ -43,7 +43,7 @@
                                     </label>
                                     <input v-model="values['addressee']"
                                         class="form-control" type="text"
-                                        :name="field.name+'addressee'"
+                                        name="addressee"
                                         :id="field.name+'addressee-input'"
                                         :disabled="field.disabled"/>
                                 </div>
@@ -55,10 +55,10 @@
                                     </label>
                                     <div class="typeahead__container">
                                       <!-- input v-model="some_temp_value" -->
+                                      <!--   v-on:change="updateAddressSearch" -->
                                       <input v-model="values['address_line_1']"
-                                          v-on:change="updateAddressSearch"
                                           class="form-control" type="text"
-                                          :name="field.name+'address_line_1'"
+                                          name="address_line_1"
                                           id="line1-input"
                                           placeholder="Type to search"
                                           :required="field.required"
@@ -70,7 +70,7 @@
                                 <div class="col-sm-12">
                                     <input v-model="values['address_line_2']"
                                         class="form-control mrgn-tp-sm" type="text"
-                                        :name="field.name+'address_line_2'"
+                                        name="address_line_2"
                                         :id="field.name+'line2-input'"
                                         :disabled="field.disabled"/>
                                 </div>
@@ -82,7 +82,7 @@
                                     </label>
                                     <input v-model="values['city']"
                                         class="form-control" type="text"
-                                        :name="field.name+'city'"
+                                        name="city"
                                         :id="field.name+'city-input'"
                                         :required="field.required"
                                         :disabled="field.disabled"/>
@@ -93,7 +93,7 @@
                                     </label>
                                     <select v-model="values['province']"
                                         class="form-control" type="text"
-                                        :name="field.name+'province'"
+                                        name="province"
                                         :id="field.name+'province-input'"
                                         :required="field.required"
                                         :disabled="field.disabled">
@@ -120,7 +120,7 @@
                                     </label>
                                     <input v-model="values['postal_code']"
                                         class="form-control" type="text"
-                                        :name="field.name+'postal_code'"
+                                        name="postal_code"
                                         :id="field.name+'postal_code-input'"
                                         :required="field.required"
                                         :disabled="field.disabled"/>
@@ -131,7 +131,7 @@
                                     </label>
                                     <select v-model="values['country']"
                                         class="form-control"
-                                        :name="field.name+'country'"
+                                        name="country"
                                         :id="field.name+'country-input'"
                                         :required="field.required"
                                         :disabled="field.disabled">
@@ -223,7 +223,8 @@
                     </span>
                 </div>
                 </span>
-                <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span>
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-check"></span>
                     Submit
                 </button>
             </div>
@@ -369,12 +370,12 @@ var app = new Vue({
   watch: {
     some_temp_value: {
       handler: function () {
-        console.log('some_temp_value Changed! ', this.some_temp_value);
+        console.log('some_temp_value Changed! ', this.some_temp_value)
       }
     },
     'values.address_line_1': {
       handler: function () {
-        console.log('values.address_line_1 Changed! ', this.values.address_line_1);
+        console.log('values.address_line_1 Changed! ', this.values.address_line_1)
       },
       deep: true
     }
@@ -383,11 +384,15 @@ var app = new Vue({
     this.loadCredentialConfiguration()
   },
   methods: {
+    submitCredentials : function(){
+      //this.$refs.form.$el.submit()
+      console.log("on submitCredentials click", this.values)
+    },
     updateAddressSearch: function (event) {
       // `this` inside methods points to the Vue instance
-      console.log("on updateAddressSearch change", this.values.address_line_1);
+      console.log("on updateAddressSearch change", this.values.address_line_1)
     },
-    loadCredentialConfiguration() {
+    loadCredentialConfiguration: function() {
       this.loading = true;
       // modify url to get credential meta-data
       // TODO fix hack to replace host with localhost
@@ -398,6 +403,7 @@ var app = new Vue({
         .get(url)
         .then(response => {
           this.config = response.data;
+          this.config.path = this.config.path.replace('.vars', '');
           this.values = {};
           for (var i=0; i<this.config.fields.length; i++) {
             var field = this.config.fields[i];

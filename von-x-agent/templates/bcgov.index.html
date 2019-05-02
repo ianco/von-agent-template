@@ -56,7 +56,7 @@
         {% if proof_response.success == True %}
             <p>{{ explanation }}</p>
             {% include "bootstrap-vue.form.html" %}
-            <!-- include "bootstrap.form.html" -->
+            {% include "bootstrap.form.html" %}
         {% else %}
             <h3>
                 Unable to proceed based on the information available about this Legal Entity. Proof of the prerequisite permits/licenses must be available to continue this process.
@@ -65,7 +65,7 @@
         {% else %}
             <p>{{ explanation }}</p>
             {% include "bootstrap-vue.form.html" %}
-            <!-- include "bootstrap.form.html" -->
+            {% include "bootstrap.form.html" %}
         {% endif %}
         </div>
         {% if proof_response %}
