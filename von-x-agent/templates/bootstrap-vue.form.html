@@ -3,8 +3,132 @@
 <!-- production version, optimized for size and speed -->
 <!-- script src="https://cdn.jsdelivr.net/npm/vue"></script -->
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 
 {% raw %}
+<!-- template for the view address component -->
+<template id='address-entry-template'>
+    <span>
+        <div class="row form-field">
+            This is an address field
+        </div>
+        <div class="form-address" :id="field.name+'-input'">
+            <div class="row form-field">
+                <div class="col-sm-12">
+                    <label class="control-label" :for="field.name+'addressee-input'">
+                        <span class="field-name">Attention</span>
+                    </label>
+                    <input v-bind:value="addressee_data"
+                            v-on:input="$emit('addressee_input', $event.target.value)"
+                            class="form-control" type="text"
+                            name="addressee"
+                            :id="field.name+'addressee-input'"
+                            :disabled="field.disabled"/>
+                </div>
+            </div>
+            <div class="row form-field">
+                <div class="col-sm-12">
+                    <label class="control-label" :for="field.name+'line1-input'">
+                        <span class="field-name">Street Address</span>
+                    </label>
+                    <div class="typeahead__container">
+                      <input v-model="address_line_1_data"
+                             v-on:input="$emit('address_line_1_input', $event.target.value)"
+                              class="form-control" type="text"
+                              name="address_line_1"
+                              id="line1-input"
+                              placeholder="Type to search"
+                              :required="field.required"
+                              :disabled="field.disabled"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-field">
+                <div class="col-sm-12">
+                    <input v-model="address_line_2_data"
+                           v-on:input="$emit('address_line_2_input', $event.target.value)"
+                            class="form-control mrgn-tp-sm" type="text"
+                            name="address_line_2"
+                            :id="field.name+'line2-input'"
+                            :disabled="field.disabled"/>
+                </div>
+            </div>
+            <div class="row form-field">
+                <div class="col-sm-6">
+                    <label class="control-label" :for="field.name+'city-input'">
+                        <span class="field-name">City</span>
+                    </label>
+                    <input v-model="city_data"
+                           v-on:input="$emit('city_input', $event.target.value)"
+                            class="form-control" type="text"
+                            name="city"
+                            :id="field.name+'city-input'"
+                            :required="field.required"
+                            :disabled="field.disabled"/>
+                </div>
+                <div class="col-sm-6">
+                    <label class="control-label" :for="field.name+'province-input'">
+                        <span class="field-name">Province</span>
+                    </label>
+                    <select v-model="province_data"
+                            v-on:input="$emit('province_input', $event.target.value)"
+                            class="form-control" type="text"
+                            name="province"
+                            :id="field.name+'province-input'"
+                            :required="field.required"
+                            :disabled="field.disabled">
+                            <option value="AB">Alberta</option>
+                            <option value="BC" selected>British Columbia</option>
+                            <option value="MB">Manitoba</option>
+                            <option value="NB">New Brunswick</option>
+                            <option value="NL">Newfoundland and Labrador</option>
+                            <option value="NT">Northwest Territories</option>
+                            <option value="NS">Nova Scotia</option>
+                            <option value="NU">Nunavut</option>
+                            <option value="ON">Ontario</option>
+                            <option value="PE">Prince Edward Island</option>
+                            <option value="QC">Quebec</option>
+                            <option value="SK">Saskatchewan</option>
+                            <option value="YT">Yukon Territory</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-field">
+                <div class="col-sm-6">
+                    <label class="control-label" :for="field.name+'postal_code-input'">
+                        <span class="field-name">Postal Code</span>
+                    </label>
+                    <input v-model="postal_code_data"
+                           v-on:input="$emit('postal_code_input', $event.target.value)"
+                            class="form-control" type="text"
+                            name="postal_code"
+                            :id="field.name+'postal_code-input'"
+                            :required="field.required"
+                            :disabled="field.disabled"/>
+                </div>
+                <div class="col-sm-6">
+                    <label class="control-label" :for="field.name+'country-input'">
+                        <span class="field-name">Country</span>
+                    </label>
+                    <select v-model="country_data"
+                            v-on:input="$emit('country_input', $event.target.value)"
+                            class="form-control"
+                            name="country"
+                            :id="field.name+'country-input'"
+                            :required="field.required"
+                            :disabled="field.disabled">
+                            <option value="CA" selected>Canada</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </span>
+</template>
+<!-- template for the view address component -->
+{% endraw %}
+
+{% raw %}
+<!-- template for the main view app -->
 <div id="app">
 <form :action="config.path" method="POST" @submit.prevent="submitCredentials"
       accept-charset="utf-8" enctype="multipart/form-data" name=""
@@ -32,116 +156,16 @@
                         </label>
                     </span>
                     <span v-if="field.type === 'address'">
-                        <div class="row form-field">
-                            This is an address field
-                        </div>
-                        <div class="form-address" :id="field.name+'-input'">
-                            <div class="row form-field">
-                                <div class="col-sm-12">
-                                    <label class="control-label" :for="field.name+'addressee-input'">
-                                        <span class="field-name">Attention</span>
-                                    </label>
-                                    <input v-model="values['addressee']"
-                                        class="form-control" type="text"
-                                        name="addressee"
-                                        :id="field.name+'addressee-input'"
-                                        :disabled="field.disabled"/>
-                                </div>
-                            </div>
-                            <div class="row form-field">
-                                <div class="col-sm-12">
-                                    <label class="control-label" :for="field.name+'line1-input'">
-                                        <span class="field-name">Street Address</span>
-                                    </label>
-                                    <div class="typeahead__container">
-                                      <!-- input v-model="some_temp_value" -->
-                                      <!--   v-on:change="updateAddressSearch" -->
-                                      <input v-model="values['address_line_1']"
-                                          class="form-control" type="text"
-                                          name="address_line_1"
-                                          id="line1-input"
-                                          placeholder="Type to search"
-                                          :required="field.required"
-                                          :disabled="field.disabled"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row form-field">
-                                <div class="col-sm-12">
-                                    <input v-model="values['address_line_2']"
-                                        class="form-control mrgn-tp-sm" type="text"
-                                        name="address_line_2"
-                                        :id="field.name+'line2-input'"
-                                        :disabled="field.disabled"/>
-                                </div>
-                            </div>
-                            <div class="row form-field">
-                                <div class="col-sm-6">
-                                    <label class="control-label" :for="field.name+'city-input'">
-                                        <span class="field-name">City</span>
-                                    </label>
-                                    <input v-model="values['city']"
-                                        class="form-control" type="text"
-                                        name="city"
-                                        :id="field.name+'city-input'"
-                                        :required="field.required"
-                                        :disabled="field.disabled"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="control-label" :for="field.name+'province-input'">
-                                        <span class="field-name">Province</span>
-                                    </label>
-                                    <select v-model="values['province']"
-                                        class="form-control" type="text"
-                                        name="province"
-                                        :id="field.name+'province-input'"
-                                        :required="field.required"
-                                        :disabled="field.disabled">
-                                            <option value="AB">Alberta</option>
-                                            <option value="BC" selected>British Columbia</option>
-                                            <option value="MB">Manitoba</option>
-                                            <option value="NB">New Brunswick</option>
-                                            <option value="NL">Newfoundland and Labrador</option>
-                                            <option value="NT">Northwest Territories</option>
-                                            <option value="NS">Nova Scotia</option>
-                                            <option value="NU">Nunavut</option>
-                                            <option value="ON">Ontario</option>
-                                            <option value="PE">Prince Edward Island</option>
-                                            <option value="QC">Quebec</option>
-                                            <option value="SK">Saskatchewan</option>
-                                            <option value="YT">Yukon Territory</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row form-field">
-                                <div class="col-sm-6">
-                                    <label class="control-label" :for="field.name+'postal_code-input'">
-                                        <span class="field-name">Postal Code</span>
-                                    </label>
-                                    <input v-model="values['postal_code']"
-                                        class="form-control" type="text"
-                                        name="postal_code"
-                                        :id="field.name+'postal_code-input'"
-                                        :required="field.required"
-                                        :disabled="field.disabled"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="control-label" :for="field.name+'country-input'">
-                                        <span class="field-name">Country</span>
-                                    </label>
-                                    <select v-model="values['country']"
-                                        class="form-control"
-                                        name="country"
-                                        :id="field.name+'country-input'"
-                                        :required="field.required"
-                                        :disabled="field.disabled">
-                                            <option value="CA" selected>Canada</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- address completion type-ahead script goes here  -->
-                        <!-- removed temporarily due to complaints by vue.js -->
+                        <address-entry 
+                           v-bind:value="values['addressee']" v-on:addressee_input="values['addressee'] = $event"
+                           v-bind:value="values['address_line_1']" v-on:address_line_1_input="values['address_line_1'] = $event"
+                           v-bind:value="values['address_line_2']" v-on:address_line_2_input="values['address_line_2'] = $event"
+                           v-bind:value="values['city']" v-on:city_input="values['city'] = $event"
+                           v-bind:value="values['province']" v-on:province_input="values['province'] = $event"
+                           v-bind:value="values['postal_code']" v-on:postal_code_input="values['postal_code'] = $event"
+                           v-bind:value="values['country']" v-on:countryinput="values['country'] = $event"
+                           v-bind:field="field">
+                        </address-entry>
                     </span>
                     <span v-else-if="field.type === 'select'">
                         <select v-model="values[field.name]"
@@ -233,11 +257,52 @@
     </fieldset>
 </form>
 </div>
+<!-- template for the main view app -->
 {% endraw %}
+
+<!-- script for vue address entry component -->
+<script>
+const address_entry = Vue.component('address-entry', {
+  template: '#address-entry-template',
+  props: ['addressee', 'address_line_1', 'address_line_2', 'city', 'province', 'postal_code', 'country', 'field',],
+  data: function () {
+        return {
+            addressee_data: this.addressee,
+            address_line_1_data: this.address_line_1,
+            address_line_2_data: this.address_line_2,
+            city_data: this.city,
+            province_data: this.province,
+            postal_code_data: this.postal_code,
+            country_data: this.country,
+        }
+  },
+  watch: {
+    address_line_1_data: function () {
+      this.debouncedAddressSearch();
+    }
+  },
+  created: function () {
+    // _.debounce is a function provided by lodash to limit how
+    // often a particularly expensive operation can be run.
+    // In this case, we want to limit how often we access
+    // yesno.wtf/api, waiting until the user has completely
+    // finished typing before making the ajax request. To learn
+    // more about the _.debounce function (and its cousin
+    // _.throttle), visit: https://lodash.com/docs#debounce
+    this.debouncedAddressSearch = _.debounce(this.addressSearch, 500)
+  },
+  methods: {
+    addressSearch: function () {
+      console.log("on updateAddressSearch change", this.address_line_1_data)
+      var autocomplete_key = 'UP49-MX76-PT22-ZM49';
+    }
+  },
+})
+</script>
 
 <!-- TODO temporary for now, script from the "old" version of this form -->
 <!-- needs to be updated to vue.js and to support multiple addresses per form -->
-{% raw %}
+{% raw %} 
 <script type="text/javascript">
   var autocomplete_key = 'UP49-MX76-PT22-ZM49';
   $.typeahead({
@@ -249,21 +314,6 @@
     source: {
       sites: {
         ajax: {
-          //delay: 150,
-
-          // BC Geocoder
-          /*url: 'https://apps.gov.bc.ca/pub/geocoder/addresses.json',
-          data: {
-            addressString: '{{query}}',
-            maxResults: 8,
-            interpolation: 'adaptive',
-            autoComplete: 'true',
-            minScore: 1,
-            provinceCode: 'BC',
-            echo: true
-          },
-          path: 'features',*/
-
           url: 'https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/AutoComplete/v1.00/json3.ws',
           data: {
             SearchTerm: '{{query}}',
@@ -284,7 +334,7 @@
         var form = node[0].form;
         var prefix = node[0].name.substring(0, node[0].name.length-14);
         /*var update = {
-          // street: fullSiteDescriptor -- civicNumber streetName streetType streetDirection
+          // street: fullSiteDescriptor - civicNumber streetName streetType streetDirection
           // city: item.properties.localityName
         };*/
         if(item.IsRetrievable) {
@@ -320,43 +370,9 @@
 </script>
 {% endraw %}
 
-<!-- script src="{{ static("js/form_vue.js") }}"></script -->
-<!-- inline for testing, for now -->
-<!--
-const form = Vue.component('cred-form-loader', {
-  template: '#cred-form',
-  data() {
-    return {
-      loading: true,
-      errored: false,
-      config: {},
-    }
-  },
-  methods: {
-    loadCredentialConfiguration() {
-      this.loading = true;
-      var cur_url = window.location.href
-      var cur_path = cur_url.split("?");
-      url = cur_path[0] + ".vars" + cur_path[1];
-      axios
-        .get(url)
-        .then(response => response.json())
-        .then(json => {
-          this.config = json
-        })
-        .catch(error => {
-          console.log(error)
-          this.errored = true
-        })
-        .finally(() => {
-          this.$emit('input', this.config);
-          this.loading = false;
-        })
-    },
-  },
-});
--->
+<!-- script for vue address entry component -->
 
+<!-- script for main vue app -->
 <script>
 var app = new Vue({
   el: '#app',
@@ -368,14 +384,6 @@ var app = new Vue({
     config: {},
     values: {},
     related_credentials: null,
-  },
-  watch: {
-    'values.address_line_1': {
-      handler: function () {
-        console.log('values.address_line_1 Changed! ', this.values.address_line_1)
-      },
-      deep: true
-    }
   },
   mounted:function(){
     this.loadCredentialConfiguration()
@@ -441,16 +449,20 @@ var app = new Vue({
                     axios.post(issue_cred_path, JSON.stringify(creds))
                             .then(response => {
                                 // TBD figure out what to do with response
-                                console.log('Result: ', response.data);
+                                this.relResponseData = response.data;
+                                console.log('Result: ', this.relResponseData);
+                                // let user know we are done
+                                window.alert(JSON.stringify({"credential": this.responseData, "relationships": this.relResponseData}))
+                                this.isSubmitting = false;      
                             })
                             .catch(error => {
                                 window.alert(error)
                             });
+                } else {
+                    // let user know we are done
+                    window.alert(JSON.stringify(this.responseData))
+                    this.isSubmitting = false;      
                 }
-
-                // let user know we are done
-                window.alert(JSON.stringify(this.responseData))
-                this.isSubmitting = false;      
             })
             .catch(error => {
                 window.alert(error)
@@ -459,10 +471,6 @@ var app = new Vue({
     },
     submitCredentialRelationships : function(){
       console.log("call to submitCredentialRelationships()");
-    },
-    updateAddressSearch: function (event) {
-      // `this` inside methods points to the Vue instance
-      console.log("on updateAddressSearch change", this.values.address_line_1)
     },
     loadCredentialConfiguration: function() {
       this.loading = true;
@@ -538,4 +546,4 @@ var app = new Vue({
   },
 })
 </script>
-<!-- inline for testing, for now -->
+<!-- script for main vue app -->
