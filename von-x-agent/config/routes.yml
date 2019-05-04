@@ -42,9 +42,25 @@ forms:
       label: contract_name
       type: text
       required: true
+    - name: corp_num
+      label: corp_num
+      type: text
+      required: true
     - name: legal_name
       label: legal_name
       type: text
+      required: true
+    - name: contractor_corp_num
+      label: contractor_corp_num
+      type: text
+      required: true
+    - name: contractor_legal_name
+      label: contractor_legal_name
+      type: text
+      required: true
+    - name: contract_location
+      label: Mailing Address
+      type: address
       required: true
     - name: permit_status
       label: permit_status
@@ -53,10 +69,6 @@ forms:
       - todo-1
       - todo-2
       - todo-3
-      required: true
-    - name: contractor_legal_name
-      label: contractor_legal_name
-      type: text
       required: true
     - name: permit_type
       label: permit_type
@@ -70,26 +82,14 @@ forms:
       label: permit_issued_date
       type: date
       required: true
-    - name: corp_num
-      label: corp_num
-      type: text
+    - name: effective_date
+      label: effective_date
+      type: date
       required: true
     - name: expiry_date
       label: expiry_date
       type: date
       required: false
-    - name: effective_date
-      label: effective_date
-      type: date
-      required: true
-    - name: contractor_corp_num
-      label: contractor_corp_num
-      type: text
-      required: true
-    - name: contract_location
-      label: Mailing Address
-      type: address
-      required: true
     mapping:
       attributes:
       - name: contract_id

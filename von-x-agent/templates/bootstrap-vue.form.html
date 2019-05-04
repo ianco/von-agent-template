@@ -4,13 +4,62 @@
 <!-- script src="https://cdn.jsdelivr.net/npm/vue"></script -->
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script src="https://unpkg.com/vue-bootstrap-typeahead"></script>
 
 {% raw %}
-<!-- template for the view address component -->
+<!-- template for the company search component -->
+<template id='company-search-template'>
+    <span>
+        <div class="row form-field">
+            This is a Company Search field
+        </div>
+        <div class="form-field">
+            <label class="control-label" for="corp-num-input">
+                <span class="field-name">Company Name (typeahead)</span>
+            </label>
+            <div class="typeahead__container">
+                <vue-bootstrap-typeahead
+                    input-class="form-control"
+                    :data="corps"
+                    v-model="nameSearch"
+                    size="sm"
+                    :serializer="s => s.names[0].text"
+                    placeholder="Type an name..."
+                    @hit="selectedCorp = $event"
+                    />
+            </div>
+        </div>
+        <div class="form-field">
+            <label class="control-label" for="corp-num-input">
+                <span class="field-name">Company Number</span>
+            </label>
+            <input v-model="corp_num"
+                class="form-control"
+                type="text"
+                name="corp-num"
+                id="corp-num-input"/>
+        </div>
+        <div class="form-field">
+            <label class="control-label" for="corp-name-input">
+                <span class="field-name">Company Name</span>
+            </label>
+            <input v-model="corp_name"
+                class="form-control"
+                type="text"
+                name="corp-name"
+                id="corp-name-input"/>
+        </div>
+    </span>
+</template>
+<!-- template for the company search component -->
+{% endraw %}
+
+{% raw %}
+<!-- template for the address component -->
 <template id='address-entry-template'>
     <span>
         <div class="row form-field">
-            This is an address field
+            This is an Address field
         </div>
         <div class="form-address" :id="field.name+'-input'">
             <div class="row form-field">
@@ -19,7 +68,6 @@
                         <span class="field-name">Attention</span>
                     </label>
                     <input v-bind:value="addressee_data"
-                            v-on:input="$emit('addressee_input', $event.target.value)"
                             class="form-control" type="text"
                             name="addressee"
                             :id="field.name+'addressee-input'"
@@ -29,11 +77,28 @@
             <div class="row form-field">
                 <div class="col-sm-12">
                     <label class="control-label" :for="field.name+'line1-input'">
+                        <span class="field-name">Street Address (typeahead)</span>
+                    </label>
+                    <div class="typeahead__container">
+                        <vue-bootstrap-typeahead
+                            input-class="form-control"
+                            :data="addresses"
+                            v-model="addressSearch"
+                            size="sm"
+                            :serializer="s => s.Text + ', ' + s.Description"
+                            placeholder="Type an address..."
+                            @hit="selectedAddress = $event"
+                            />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-field">
+                <div class="col-sm-12">
+                    <label class="control-label" :for="field.name+'line1-input'">
                         <span class="field-name">Street Address</span>
                     </label>
                     <div class="typeahead__container">
                       <input v-model="address_line_1_data"
-                             v-on:input="$emit('address_line_1_input', $event.target.value)"
                               class="form-control" type="text"
                               name="address_line_1"
                               id="line1-input"
@@ -46,7 +111,6 @@
             <div class="row form-field">
                 <div class="col-sm-12">
                     <input v-model="address_line_2_data"
-                           v-on:input="$emit('address_line_2_input', $event.target.value)"
                             class="form-control mrgn-tp-sm" type="text"
                             name="address_line_2"
                             :id="field.name+'line2-input'"
@@ -59,7 +123,6 @@
                         <span class="field-name">City</span>
                     </label>
                     <input v-model="city_data"
-                           v-on:input="$emit('city_input', $event.target.value)"
                             class="form-control" type="text"
                             name="city"
                             :id="field.name+'city-input'"
@@ -71,7 +134,6 @@
                         <span class="field-name">Province</span>
                     </label>
                     <select v-model="province_data"
-                            v-on:input="$emit('province_input', $event.target.value)"
                             class="form-control" type="text"
                             name="province"
                             :id="field.name+'province-input'"
@@ -99,7 +161,6 @@
                         <span class="field-name">Postal Code</span>
                     </label>
                     <input v-model="postal_code_data"
-                           v-on:input="$emit('postal_code_input', $event.target.value)"
                             class="form-control" type="text"
                             name="postal_code"
                             :id="field.name+'postal_code-input'"
@@ -111,7 +172,6 @@
                         <span class="field-name">Country</span>
                     </label>
                     <select v-model="country_data"
-                            v-on:input="$emit('country_input', $event.target.value)"
                             class="form-control"
                             name="country"
                             :id="field.name+'country-input'"
@@ -124,7 +184,7 @@
         </div>
     </span>
 </template>
-<!-- template for the view address component -->
+<!-- template for the address component -->
 {% endraw %}
 
 {% raw %}
@@ -157,15 +217,15 @@
                     </span>
                     <span v-if="field.type === 'address'">
                         <address-entry 
-                           v-bind:value="values['addressee']" v-on:addressee_input="values['addressee'] = $event"
-                           v-bind:value="values['address_line_1']" v-on:address_line_1_input="values['address_line_1'] = $event"
-                           v-bind:value="values['address_line_2']" v-on:address_line_2_input="values['address_line_2'] = $event"
-                           v-bind:value="values['city']" v-on:city_input="values['city'] = $event"
-                           v-bind:value="values['province']" v-on:province_input="values['province'] = $event"
-                           v-bind:value="values['postal_code']" v-on:postal_code_input="values['postal_code'] = $event"
-                           v-bind:value="values['country']" v-on:countryinput="values['country'] = $event"
-                           v-bind:field="field">
-                        </address-entry>
+                           v-bind:addressee="values['addressee']" v-on:addressee_input="values['addressee'] = $event"
+                           v-bind:address_line_1="values['address_line_1']" v-on:address_line_1_input="values['address_line_1'] = $event"
+                           v-bind:address_line_2="values['address_line_2']" v-on:address_line_2_input="values['address_line_2'] = $event"
+                           v-bind:city="values['city']" v-on:city_input="values['city'] = $event"
+                           v-bind:province="values['province']" v-on:province_input="values['province'] = $event"
+                           v-bind:postal_code="values['postal_code']" v-on:postal_code_input="values['postal_code'] = $event"
+                           v-bind:country="values['country']" v-on:country_input="values['country'] = $event"
+                           v-bind:field="field"
+                           />
                     </span>
                     <span v-else-if="field.type === 'select'">
                         <select v-model="values[field.name]"
@@ -247,6 +307,12 @@
                     </span>
                 </div>
                 </span>
+
+                <company-search 
+                   v-bind:corp_num="test_corp_num" v-on:corp_num_input="test_corp_num = $event"
+                   v-bind:corp_name="test_corp_name" v-on:corp_name_input="test_corp_name = $event"
+                   />
+
                 <button type="submit" class="btn btn-primary" 
                         v-bind:class="{ loading: isSubmitting }">
                     <span class="fa fa-check"></span>
@@ -260,26 +326,53 @@
 <!-- template for the main view app -->
 {% endraw %}
 
-<!-- script for vue address entry component -->
+<!-- script for vue typeahead component -->
 <script>
-const address_entry = Vue.component('address-entry', {
-  template: '#address-entry-template',
-  props: ['addressee', 'address_line_1', 'address_line_2', 'city', 'province', 'postal_code', 'country', 'field',],
+// Global registration
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
+</script>
+<!-- script for vue typeahead component -->
+
+<!-- script for vue company search component -->
+<script>
+const C_SRCH_API = THE_ORG_BOOK_APP_URL + '/api/v2/search/autocomplete?inactive=any&latest=true&revoked=false&q=:query';
+const C_FTCH_API = THE_ORG_BOOK_APP_URL + '/api/v2/search/credential?inactive=false&latest=true&revoked=false&topic_id=:itemid';
+
+const company_search = Vue.component('company-search', {
+  template: '#company-search-template',
+  props: ['corp_num', 'corp_name',],
   data: function () {
         return {
-            addressee_data: this.addressee,
-            address_line_1_data: this.address_line_1,
-            address_line_2_data: this.address_line_2,
-            city_data: this.city,
-            province_data: this.province,
-            postal_code_data: this.postal_code,
-            country_data: this.country,
+            fetching: false,
+            corp_num_data: this.corp_num,
+            corp_name_data: this.corp_name,
+            corps: [],
+            nameSearch: '',
+            selectedCorp: null,
         }
   },
   watch: {
-    address_line_1_data: function () {
-      this.debouncedAddressSearch();
-    }
+    corp_num_data: function() { this.$emit('corp_num_input', this.corp_num_data) },
+    corp_name_data: function() { this.$emit('corp_name_input', this.corp_name_data) },
+    nameSearch: function(name) { 
+        this.getCorps(name); 
+    },
+    selectedCorp: function () {
+        console.log("on selectedCorp change", this.selectedCorp);
+        this.fetching = true;
+        axios.get(C_FTCH_API.replace(':itemid', this.selectedCorp.id))
+            .then(response => {
+                var data = response.data;
+                console.log('Fetch Result: ', data);
+                this.nameSearch = data.results[0].topic.local_name.text;
+                this.corp_num_data = data.results[0].topic.source_id;
+                this.corp_name_data = data.results[0].topic.local_name.text;
+            })
+            .catch(error => {
+                window.alert(error)
+            });
+        this.fetching = false;
+    },
   },
   created: function () {
     // _.debounce is a function provided by lodash to limit how
@@ -289,87 +382,122 @@ const address_entry = Vue.component('address-entry', {
     // finished typing before making the ajax request. To learn
     // more about the _.debounce function (and its cousin
     // _.throttle), visit: https://lodash.com/docs#debounce
-    this.debouncedAddressSearch = _.debounce(this.addressSearch, 500)
+    this.debouncedGetAddresses = _.debounce(this.getCorps, 500);
   },
   methods: {
-    addressSearch: function () {
-      console.log("on updateAddressSearch change", this.address_line_1_data)
-      var autocomplete_key = 'UP49-MX76-PT22-ZM49';
+    getCorps(query) {
+        if (!this.fetching) {
+            this.fetching = true;
+            axios.get(C_SRCH_API.replace(':query', query))
+                    .then(response => {
+                        var responseData = response.data;
+                        console.log('Search Result: ', responseData);
+                        this.corps = responseData.results
+                    })
+                    .catch(error => {
+                        window.alert(error)
+                    });
+        }
+        this.fetching = false;
     }
   },
 })
 </script>
+<!-- script for vue company search component -->
 
-<!-- TODO temporary for now, script from the "old" version of this form -->
-<!-- needs to be updated to vue.js and to support multiple addresses per form -->
-{% raw %} 
-<script type="text/javascript">
-  var autocomplete_key = 'UP49-MX76-PT22-ZM49';
-  $.typeahead({
-    input: '#line1-input',
-    dynamic: true,
-    filter: false,
-    //display: ['properties.fullAddress'],
-    display: ['Text', 'Description'],
-    source: {
-      sites: {
-        ajax: {
-          url: 'https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/AutoComplete/v1.00/json3.ws',
-          data: {
-            SearchTerm: '{{query}}',
-            //Country: 'CAN',
-            LanguagePreference: 'EN',
-            Key: autocomplete_key
-          },
-          path: 'Items'
+<!-- script for vue address entry component -->
+<script>
+const KEY      = 'UP49-MX76-PT22-ZM49';
+const LANG     = 'EN';
+const A_SRCH_URL = 'https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/AutoComplete/v1.00/json3.ws';
+const A_FTCH_URL = 'https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Retrieve/v1.00/json3.ws';
+const A_SRCH_API = A_SRCH_URL + '?Key=' + KEY + '&LanguagePreference=' + LANG + '&SearchTerm=:query'
+const A_FTCH_API = A_FTCH_URL + '?Key=' + KEY + '&Id=:itemid'
+
+const address_entry = Vue.component('address-entry', {
+  template: '#address-entry-template',
+  props: ['addressee', 'address_line_1', 'address_line_2', 'city', 'province', 'postal_code', 'country', 'field',],
+  data: function () {
+        return {
+            fetching: false,
+            addressee_data: this.addressee,
+            address_line_1_data: this.address_line_1,
+            address_line_2_data: this.address_line_2,
+            city_data: this.city,
+            province_data: this.province,
+            postal_code_data: this.postal_code,
+            country_data: this.country,
+            addresses: [],
+            addressSearch: '',
+            selectedAddress: null,
         }
-      }
+  },
+  watch: {
+    addressee_data: function() { this.$emit('addressee_input', this.addressee_data) },
+    address_line_1_data: function() { this.$emit('address_line_1_input', this.address_line_1_data) },
+    address_line_2_data: function() { this.$emit('address_line_2_input', this.address_line_2_data) },
+    city_data: function() { this.$emit('city_input', this.city_data) },
+    province_data: function() { this.$emit('province_input', this.province_data) },
+    postal_code_data: function() { this.$emit('postal_code_input', this.postal_code_data) },
+    country_data: function() { this.$emit('country_input', this.country_data) },
+    addressSearch: function(addr) { 
+        this.getAddresses(addr); 
     },
-    callback: {
-      onInit: function (node) { console.log('ta init', node); },
-      onSubmit: function (node, form, item, event) {
-        console.log('submit', item);
-      },
-      onClickAfter (node, a, item, event)   {
-        var form = node[0].form;
-        var prefix = node[0].name.substring(0, node[0].name.length-14);
-        /*var update = {
-          // street: fullSiteDescriptor - civicNumber streetName streetType streetDirection
-          // city: item.properties.localityName
-        };*/
-        if(item.IsRetrievable) {
-          $.get('https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Retrieve/v1.00/json3.ws',
-            {Key: autocomplete_key, Id: item.Id},
-            function(data) {
-              if(data && data.Items && data.Items.length) {
-                var item = data.Items[0]; // [1] for french record
-                var upd = {
-                  'address_line1': item.Line1,
-                  'address_line2': item.Line2,
-                  'city': item.City,
-                  'province': item.ProvinceCode,
-                  'postal_code': item.PostalCode
-                };
-                for(var k in upd) {
-                  var inp = form.elements[prefix + k];
-                  if(inp) inp.value = upd[k] || '';
-                }
-              }
-            },
-            'json');
+    selectedAddress: function () {
+        console.log("on selectedAddress change", this.selectedAddress);
+        this.fetching = true;
+        if (this.selectedAddress.IsRetrievable) {
+            axios.get(A_FTCH_API.replace(':itemid', this.selectedAddress.Id))
+                .then(response => {
+                    var data = response.data;
+                    console.log('Fetch Result: ', data);
+                    if (data && data.Items && data.Items.length) {
+                        var item = data.Items[0]; // [1] for french record
+                        this.addressSearch = item.Line1;
+                        this.address_line_1_data = item.Line1;
+                        this.address_line_2_data = item.Line2;
+                        this.city_data = item.City;
+                        this.province_data = item.ProvinceCode;
+                        this.postal_code_data = item.PostalCode;
+                        this.country_data = item.CountryIso2;
+                    }
+                })
+                .catch(error => {
+                    window.alert(error)
+                });
         }
-      },
-      onNavigateBefore: function (node, query, event) {
-        if (~[38,40].indexOf(event.keyCode)) {
-          event.preventInputChange = true;
-        }
-      }
+        this.fetching = false;
     },
-    debug: true
-  });
+  },
+  created: function () {
+    // _.debounce is a function provided by lodash to limit how
+    // often a particularly expensive operation can be run.
+    // In this case, we want to limit how often we access
+    // yesno.wtf/api, waiting until the user has completely
+    // finished typing before making the ajax request. To learn
+    // more about the _.debounce function (and its cousin
+    // _.throttle), visit: https://lodash.com/docs#debounce
+    this.debouncedGetAddresses = _.debounce(this.getAddresses, 500);
+  },
+  methods: {
+    getAddresses(query) {
+        if (!this.fetching) {
+            this.fetching = true;
+            axios.get(A_SRCH_API.replace(':query', query))
+                    .then(response => {
+                        var responseData = response.data;
+                        console.log('Search Result: ', responseData);
+                        this.addresses = responseData.Items
+                    })
+                    .catch(error => {
+                        window.alert(error)
+                    });
+        }
+        this.fetching = false;
+    }
+  },
+})
 </script>
-{% endraw %}
-
 <!-- script for vue address entry component -->
 
 <!-- script for main vue app -->
@@ -384,6 +512,8 @@ var app = new Vue({
     config: {},
     values: {},
     related_credentials: null,
+    test_corp_num: '',
+    test_corp_name: '',
   },
   mounted:function(){
     this.loadCredentialConfiguration()
