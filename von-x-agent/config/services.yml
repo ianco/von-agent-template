@@ -53,103 +53,30 @@ issuers:
           input: registration
           from: value
       mapping:
+      - model: attribute
+        fields:
+          type:
+            input: corp_num
+            from: value
+          value:
+            input: corp_num
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: legal_name
+            from: value
+          value:
+            input: legal_name
+            from: claim
       - model: name
         fields:
           text:
-            input: contract_name
+            input: project_name
             from: claim
           type:
-            input: contract_name
+            input: project_name
             from: value
-      - model: attribute
-        fields:
-          type:
-            input: contract_id
-            from: value
-          value:
-            input: contract_id
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: legal_name
-            from: value
-          value:
-            input: legal_name
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_status
-            from: value
-          value:
-            input: permit_status
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: contractor_legal_name
-            from: value
-          value:
-            input: contractor_legal_name
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_type
-            from: value
-          value:
-            input: permit_type
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_issued_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: permit_issued_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: corp_num
-            from: value
-          value:
-            input: corp_num
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: expiry_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: effective_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: effective_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: contractor_corp_num
-            from: value
-          value:
-            input: contractor_corp_num
-            from: claim
       - model: address
         fields:
           addressee:
@@ -169,6 +96,106 @@ issuers:
             from: claim
           country:
             input: country
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: consultant_corp_num
+            from: value
+          value:
+            input: consultant_corp_num
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: consultant_legal_name
+            from: value
+          value:
+            input: consultant_legal_name
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contractor_corp_num
+            from: value
+          value:
+            input: contractor_corp_num
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contractor_legal_name
+            from: value
+          value:
+            input: contractor_legal_name
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_id
+            from: value
+          value:
+            input: contract_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_start_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: contract_start_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_end_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: contract_end_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_type
+            from: value
+          value:
+            input: contract_type
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: payment_terms
+            from: value
+          value:
+            input: payment_terms
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: effective_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim
     - description: The sub-contract credential awarded to a Trade/Sub
       schema: subcontract.bcca
@@ -193,6 +220,14 @@ issuers:
       - model: attribute
         fields:
           type:
+            input: subcontractor_corp_num
+            from: value
+          value:
+            input: subcontractor_corp_num
+            from: claim
+      - model: attribute
+        fields:
+          type:
             input: legal_name
             from: value
           value:
@@ -205,80 +240,83 @@ issuers:
             from: value
           value:
             input: contract_id
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_status
-            from: value
-          value:
-            input: permit_status
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_type
-            from: value
-          value:
-            input: permit_type
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_issued_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: permit_issued_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: subcontractor_corp_num
-            from: value
-          value:
-            input: subcontractor_corp_num
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: expiry_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: subcontract_id
-            from: value
-          value:
-            input: subcontract_id
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: effective_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: effective_date
             from: claim
       - model: name
         fields:
           text:
-            input: subcontract_name
+            input: contract_name
             from: claim
           type:
-            input: subcontract_name
+            input: contract_name
             from: value
+      - model: attribute
+        fields:
+          type:
+            input: subcontract_id
+            from: value
+          value:
+            input: subcontract_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_type
+            from: value
+          value:
+            input: contract_type
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_start_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: contract_start_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: contract_end_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: contract_end_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: payment_terms
+            from: value
+          value:
+            input: payment_terms
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: effective_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
+            from: claim
     - description: The payment against the master contract
       schema: contract-payment.bcca
       issuer_url: $ENDPOINT_URL/bcca/contractpayment
@@ -304,36 +342,6 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: payment_id
-            from: value
-          value:
-            input: payment_id
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_issued_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: permit_issued_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: expiry_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
             input: contract_id
             from: value
           value:
@@ -342,10 +350,26 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_status
+            input: payment_id
             from: value
           value:
-            input: permit_status
+            input: payment_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: payment_type
+            from: value
+          value:
+            input: payment_type
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: amount_paid
+            from: value
+          value:
+            input: amount_paid
             from: claim
       - model: attribute
         fields:
@@ -361,10 +385,13 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_type
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
             from: value
           value:
-            input: permit_type
+            input: expiry_date
             from: claim
     - description: The certification that work has been completed per terms
       schema: certificate-of-completion.bcca
@@ -389,28 +416,6 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_issued_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: permit_issued_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
-            from: value
-          value:
-            input: expiry_date
-            from: claim
-      - model: attribute
-        fields:
-          type:
             input: subcontract_id
             from: value
           value:
@@ -419,10 +424,18 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_status
+            input: certification_id
             from: value
           value:
-            input: permit_status
+            input: certification_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: payment_certifier
+            from: value
+          value:
+            input: payment_certifier
             from: claim
       - model: attribute
         fields:
@@ -438,6 +451,45 @@ issuers:
       - model: attribute
         fields:
           type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
+            from: claim
+    - description: The certification that payment can be released per terms
+      schema: certificate-of-payment.bcca
+      issuer_url: $ENDPOINT_URL/bcca/certificateofpayment
+      depends_on:
+      - bcca_subcontract
+      credential:
+        effective_date:
+          input: effective_date
+          from: claim
+        revoked_date:
+          input: expiry_date
+          from: claim
+      topic:
+        source_id:
+          input: subcontract_id
+          from: claim
+        type:
+          input: registration
+          from: value
+      mapping:
+      - model: attribute
+        fields:
+          type:
+            input: subcontract_id
+            from: value
+          value:
+            input: subcontract_id
+            from: claim
+      - model: attribute
+        fields:
+          type:
             input: certification_id
             from: value
           value:
@@ -446,10 +498,40 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_type
+            input: reference_number
             from: value
           value:
-            input: permit_type
+            input: reference_number
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: amount_payable
+            from: value
+          value:
+            input: amount_payable
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: effective_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim
     - description: The payment against a sub-contract based on completion of work
       schema: subcontract-payment.bcca
@@ -474,18 +556,10 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: payment_id
+            input: subcontract_id
             from: value
           value:
-            input: payment_id
-            from: claim
-      - model: attribute
-        fields:
-          type:
-            input: permit_status
-            from: value
-          value:
-            input: permit_status
+            input: subcontract_id
             from: claim
       - model: attribute
         fields:
@@ -498,40 +572,34 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: permit_type
+            input: payment_id
             from: value
           value:
-            input: permit_type
+            input: payment_id
             from: claim
       - model: attribute
         fields:
           type:
-            input: permit_issued_date
-            from: value
-          format:
-            input: datetime
+            input: reference_number
             from: value
           value:
-            input: permit_issued_date
+            input: reference_number
             from: claim
       - model: attribute
         fields:
           type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
+            input: payment_type
             from: value
           value:
-            input: expiry_date
+            input: payment_type
             from: claim
       - model: attribute
         fields:
           type:
-            input: subcontract_id
+            input: amount_paid
             from: value
           value:
-            input: subcontract_id
+            input: amount_paid
             from: claim
       - model: attribute
         fields:
@@ -543,6 +611,17 @@ issuers:
             from: value
           value:
             input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: expiry_date
             from: claim
     - description: Relationship between a Contract and the Client or General Contractor
       schema: contract_relationship.bcca
@@ -573,10 +652,10 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: associated_source_id
+            input: source_id
             from: value
           value:
-            input: associated_source_id
+            input: source_id
             from: claim
       - model: attribute
         fields:
@@ -589,10 +668,10 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: relationship_type
+            input: associated_source_id
             from: value
           value:
-            input: relationship_type
+            input: associated_source_id
             from: claim
       - model: attribute
         fields:
@@ -605,13 +684,10 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: expiry_date
-            from: value
-          format:
-            input: datetime
+            input: relationship_type
             from: value
           value:
-            input: expiry_date
+            input: relationship_type
             from: claim
       - model: attribute
         fields:
@@ -635,10 +711,13 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: source_id
+            input: expiry_date
+            from: value
+          format:
+            input: datetime
             from: value
           value:
-            input: source_id
+            input: expiry_date
             from: claim
 # end of auto-generated content
 ###################################################

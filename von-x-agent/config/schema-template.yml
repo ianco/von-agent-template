@@ -20,6 +20,17 @@
       relationship_description: Client
       related_relationship_type: Contract
       related_relationship_description: Contract
+    consultant:
+      related_schema: contract_relationship.bcca
+      topic: contract_id
+      topic_name: contract_name
+      related_topic: consultant_corp_num
+      related_topic_name: consultant_legal_name
+      effective_date: effective_date
+      relationship_type: Consultant
+      relationship_description: Project Consultant
+      related_relationship_type: Project
+      related_relationship_description: Project
     contractor:
       related_schema: contract_relationship.bcca
       topic: contract_id
@@ -48,6 +59,26 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_text
       required: true
+    project_name:
+      description: Project Name
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_name
+      required: true
+    project_address:
+      description: Project Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
+    consultant_corp_num:
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    consultant_legal_name:
+      description: Legal Name of the Project Consultant
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     contractor_corp_num:
       description: ID issued by the registering organization
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
@@ -68,33 +99,33 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_name
       required: true
-    contract_location:
-      description: Contract Location
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_address
-      required: true
-    permit_type:
-      description: Permit Type
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_select
-      required: true
-    permit_issued_date:
-      description: Permit Issue Date
+    contract_start_date:
+      description: Contract Start Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
-    permit_status:
-      description: Permit Status
+    contract_end_date:
+      description: Contract End Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    contract_type:
+      description: Contract Type
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    payment_terms:
+      description: Payment Terms
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_select
       required: true
     effective_date:
-      description: Permit Effective Date
+      description: Contract Effective Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Credential Expiry Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false
@@ -168,28 +199,33 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_name
       required: true
-    permit_type:
-      description: Permit Type
+    contract_type:
+      description: Contract Type
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_select
       required: true
-    permit_issued_date:
-      description: Permit Issue Date
+    contract_start_date:
+      description: Contract Start Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
-    permit_status:
-      description: Permit Status
+    contract_end_date:
+      description: Contract End Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    payment_terms:
+      description: Payment Terms
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_select
       required: true
     effective_date:
-      description: Permit Effective Date
+      description: Contract Effective Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Credential Expiry Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false
@@ -221,28 +257,23 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: helper_uuid
       required: true
-    permit_type:
-      description: Permit Type
+    payment_type:
+      description: Payment Type
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_select
       required: true
-    permit_issued_date:
-      description: Permit Issue Date
+    amount_paid:
+      description: Amount Paid
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_date
-      required: true
-    permit_status:
-      description: Permit Status
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_select
+      data_type: ui_text
       required: true
     effective_date:
-      description: Permit Effective Date
+      description: Payment Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Credential Expiry Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false
@@ -275,28 +306,67 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: helper_uuid
       required: true
-    permit_type:
-      description: Permit Type
+    payment_certifier:
+      description: Certifier tha the work was completed
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_select
-      required: true
-    permit_issued_date:
-      description: Permit Issue Date
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_date
-      required: true
-    permit_status:
-      description: Permit Status
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_select
+      data_type: ui_text
       required: true
     effective_date:
-      description: Permit Effective Date
+      description: Certificate Issue Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Credential Expiry Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
+
+- name: certificate-of-payment.bcca
+  version: '1.0.0'
+  description: The certification that payment can be released per terms
+  endpoint: $ENDPOINT_URL
+  path: /bcca/certificateofpayment
+  # identify the attribute which identify the owning organization
+  topic: subcontract_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: 
+  #  - contract_id
+  #  - subcontract_id
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: bcca_subcontract
+  attributes:
+    subcontract_id:
+      description: Sub-Contract ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    certification_id:
+      description: Certification ID issued by the general contractor
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    reference_number:
+      description: Reference Number
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    amount_payable:
+      description: Amount Payable
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    effective_date:
+      description: Certificate Issue Date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+    expiry_date:
+      description: Expiry Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false
@@ -334,28 +404,28 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: helper_uuid
       required: true
-    permit_type:
-      description: Permit Type
+    reference_number:
+      description: Reference Number
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    payment_type:
+      description: Payment Type
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_select
       required: true
-    permit_issued_date:
-      description: Permit Issue Date
+    amount_paid:
+      description: Amount Paid
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_date
-      required: true
-    permit_status:
-      description: Permit Status
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_select
+      data_type: ui_text
       required: true
     effective_date:
-      description: Permit Effective Date
+      description: Payment Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Credential Expiry Date
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false

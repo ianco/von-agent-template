@@ -1,4 +1,4 @@
-{ "the following are the 4 corporate entities involved - Client, General Contractor and Trade (2)":
+{ "the following are the 5 corporate entities involved - Client, Consultant, General Contractor and Trade (2)":
 [
     {
         "attributes": {
@@ -17,6 +17,27 @@
             "province": "BC",
             "reason_description": "Filing:REGST",
             "registration_date": "2009-07-19"
+        },
+        "schema": "Registered Corporation",
+        "version": "1.0.3"
+    },
+    {
+        "attributes": {
+            "address_line_1": "1234 Some Street",
+            "address_line_2": "",
+            "addressee": "Mr. Con Sultant",
+            "city": "Surrey",
+            "corp_num": "ConsultantIncID",
+            "country": "CA",
+            "entity_name_effective": "2012-08-23",
+            "entity_status": "Active",
+            "entity_status_effective": "2012-08-23",
+            "entity_type": "Sole Proprietorship",
+            "legal_name": "Bob's Project Management",
+            "postal_code": "V3W 4E3",
+            "province": "BC",
+            "reason_description": "Filing:FRREG",
+            "registration_date": "2012-08-23"
         },
         "schema": "Registered Corporation",
         "version": "1.0.3"
@@ -89,24 +110,54 @@
 [
     {
         "attributes": {
-            "contract_id": "MyContractId101",
-            "contract_name": "New School 101",
-            "contractor_corp_num": "JoeConstID",
-            "contractor_legal_name": "Joe's Construction",
-            "corp_num": "MinitryOfEDID",
-            "effective_date": "2019-02-01T16:26:29.531694+00:00",
-            "legal_name": "Ministry of Education",
-            "permit_issued_date": "2019-02-01T16:26:29.531611+00:00",
-            "permit_status": "Status 1",
-            "permit_type": "Type 1",
             "address_line_1": "123 Any Street", 
             "addressee": "Bob", 
             "city": "Victoria", 
+            "consultant_corp_num": "ConsultantIncID",
+            "consultant_legal_name": "Bob's Project Management",
+            "contract_end_date": "2019-06-11T16:21:55.443259+00:00",
+            "contract_id": "MyContractId101",
+            "contract_name": "New School 101",
+            "contract_start_date": "2019-02-11T16:21:55.443188+00:00",
+            "contract_type": "Build",
+            "contractor_corp_num": "JoeConstID",
+            "contractor_legal_name": "Joe's Construction",
+            "corp_num": "MinitryOfEDID",
             "country": "CA", 
+            "effective_date": "2019-02-01T16:26:29.531694+00:00",
+            "legal_name": "Ministry of Education",
+            "payment_terms": "Cash on Completion",
             "postal_code": "V1V1V1", 
+            "project_name": "New High School",
             "province": "BC"
         },
         "schema": "contract.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "associated_source_id": "ConsultantIncID",
+            "associated_source_name": "Bob's Project Management",
+            "effective_date": "2019-02-01T16:26:29.532471+00:00",
+            "relationship_description": "Project Consultant",
+            "relationship_type": "Consultant",
+            "source_id": "MyContractId101",
+            "source_name": "New School 101"
+        },
+        "schema": "contract_relationship.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "source_id": "ConsultantIncID",
+            "source_name": "Bob's Project Management",
+            "effective_date": "2019-02-01T16:26:29.532471+00:00",
+            "relationship_description": "Contract",
+            "relationship_type": "Contract",
+            "associated_source_id": "MyContractId101",
+            "associated_source_name": "New School 101"
+        },
+        "schema": "contract_relationship.bcca",
         "version": "1.0.0"
     },
     {
@@ -153,8 +204,8 @@
             "source_id": "MinitryOfEDID",
             "source_name": "Ministry of Education",
             "effective_date": "2019-02-01T16:26:29.532471+00:00",
-            "relationship_description": "Contract",
-            "relationship_type": "Contract",
+            "relationship_description": "Project",
+            "relationship_type": "Project",
             "associated_source_id": "MyContractId101",
             "associated_source_name": "New School 101"
         },
@@ -166,12 +217,14 @@
 [
     {
         "attributes": {
+            "contract_end_date": "2019-07-01T16:26:29.531881+00:00",
             "contract_id": "MyContractId101",
+            "contract_name": "Electrical Sub-contract Work",
+            "contract_start_date": "2019-05-11T16:21:55.443441+00:00",
+            "contract_type": "Electrical",
             "effective_date": "2019-03-01T16:26:29.531881+00:00",
             "legal_name": "New School 101",
-            "permit_issued_date": "2019-03-01T16:26:29.531844+00:00",
-            "permit_status": "New",
-            "permit_type": "123 Type",
+            "payment_terms": "Payment on Acceptance of Work",
             "subcontract_id": "ElecSubContractID",
             "subcontract_name": "Electrical Work Subcontract",
             "subcontractor_corp_num": "ElecStuffID"
@@ -236,12 +289,14 @@
 [
     {
         "attributes": {
+            "contract_end_date": "2019-08-01T16:26:29.531881+00:00",
             "contract_id": "MyContractId101",
+            "contract_name": "Plumbing Work",
+            "contract_start_date": "2019-06-11T16:21:55.443441+00:00",
+            "contract_type": "Plumbing",
             "effective_date": "2019-03-01T16:26:29.531881+00:00",
             "legal_name": "New School 101",
-            "permit_issued_date": "2019-03-01T16:26:29.531844+00:00",
-            "permit_status": "New",
-            "permit_type": "123 Type",
+            "payment_terms": "Payment on Acceptance",
             "subcontract_id": "PlumbSubContractID",
             "subcontract_name": "Plumbing Work Subcontract",
             "subcontractor_corp_num": "PlumberID"
@@ -306,24 +361,22 @@
 [
     {
         "attributes": {
+            "amount_paid": "$100,000.00",
             "contract_id": "MyContractId101",
             "effective_date": "2019-03-24T16:26:29.532034+00:00",
             "payment_id": "Payment1",
-            "permit_issued_date": "2019-03-24T16:26:29.531998+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some"
+            "payment_type": "Cash"
         },
         "schema": "contract-payment.bcca",
         "version": "1.0.0"
     },
     {
         "attributes": {
+            "amount_paid": "$75,000.00",
             "contract_id": "MyContractId101",
             "effective_date": "2019-04-24T16:26:29.532034+00:00",
             "payment_id": "Payment2",
-            "permit_issued_date": "2019-04-24T16:26:29.531998+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some"
+            "payment_type": "Cash"
         },
         "schema": "contract-payment.bcca",
         "version": "1.0.0"
@@ -332,9 +385,7 @@
         "attributes": {
             "certification_id": "ElecCertification1",
             "effective_date": "2019-04-24T16:26:29.532185+00:00",
-            "permit_issued_date": "2019-04-24T16:26:29.532150+00:00",
-            "permit_status": "Ok",
-            "permit_type": "Ok",
+            "payment_certifier": "Bob Consultant",
             "subcontract_id": "ElecSubContractID"
         },
         "schema": "certificate-of-completion.bcca",
@@ -342,12 +393,23 @@
     },
     {
         "attributes": {
+            "amount_payable": "$25,000.00",
+            "certification_id": "ElecCertification1",
+            "effective_date": "2019-06-11T16:21:55.443785+00:00",
+            "reference_number": "123REF01NUM",
+            "subcontract_id": "ElecSubContractID"
+        },
+        "schema": "certificate-of-payment.bcca",
+        "version": "1.0.0"
+    },
+    {
+        "attributes": {
+            "amount_paid": "$25,000.00",
             "certification_id": "ElecCertification1",
             "effective_date": "2019-04-24T16:26:29.532348+00:00",
             "payment_id": "SubPayment1",
-            "permit_issued_date": "2019-04-24T16:26:29.532309+00:00",
-            "permit_status": "Some",
-            "permit_type": "Some",
+            "payment_type": "Some",
+            "reference_number": "123REF01NUM",
             "subcontract_id": "ElecSubContractID"
         },
         "schema": "subcontract-payment.bcca",

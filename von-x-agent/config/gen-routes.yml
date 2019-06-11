@@ -13,79 +13,108 @@ forms:
       connection_id: bctob
     related_credentials:
       client:
-        related_relationship_description: Contract
+        related_schema: contract_relationship.bcca
         related_schema_version: 1.0.0
-        topic_name: contract_name
-        related_relationship_type: Contract
         topic: contract_id
-        effective_date: effective_date
-        related_schema: contract_relationship.bcca
-        relationship_description: Client
-        relationship_type: Client
+        topic_name: contract_name
         related_topic: corp_num
-      contractor:
-        related_relationship_description: Contract
-        topic_name: contract_name
-        related_relationship_type: Contract
-        topic: contract_id
-        relationship_type: Contractor
-        related_schema: contract_relationship.bcca
-        relationship_description: General Contractor
+        related_topic_name: legal_name
         effective_date: effective_date
+        relationship_type: Client
+        relationship_description: Client
+        related_relationship_type: Contract
+        related_relationship_description: Contract
+      consultant:
+        related_schema: contract_relationship.bcca
+        topic: contract_id
+        topic_name: contract_name
+        related_topic: consultant_corp_num
+        related_topic_name: consultant_legal_name
+        effective_date: effective_date
+        relationship_type: Consultant
+        relationship_description: Project Consultant
+        related_relationship_type: Project
+        related_relationship_description: Project
+      contractor:
+        related_schema: contract_relationship.bcca
+        topic: contract_id
+        topic_name: contract_name
         related_topic: contractor_corp_num
+        related_topic_name: contractor_legal_name
+        effective_date: effective_date
+        relationship_type: Contractor
+        relationship_description: General Contractor
+        related_relationship_type: Contract
+        related_relationship_description: Contract
     fields:
-    - name: contract_name
-      label: contract_name
+    - name: corp_num
+      label: corp_num
       type: text
       required: true
     - name: legal_name
       label: legal_name
       type: text
       required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: contractor_legal_name
-      label: contractor_legal_name
+    - name: project_name
+      label: project_name
       type: text
       required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
+    - name: project_address
+      label: Mailing Address
+      type: address
       required: true
-    - name: permit_issued_date
-      label: permit_issued_date
-      type: date
-      required: true
-    - name: corp_num
-      label: corp_num
+    - name: consultant_corp_num
+      label: consultant_corp_num
       type: text
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    - name: effective_date
-      label: effective_date
-      type: date
+    - name: consultant_legal_name
+      label: consultant_legal_name
+      type: text
       required: true
     - name: contractor_corp_num
       label: contractor_corp_num
       type: text
       required: true
-    - name: contract_location
-      label: Mailing Address
-      type: address
+    - name: contractor_legal_name
+      label: contractor_legal_name
+      type: text
       required: true
+    - name: contract_name
+      label: contract_name
+      type: text
+      required: true
+    - name: contract_start_date
+      label: contract_start_date
+      type: date
+      required: true
+    - name: contract_end_date
+      label: contract_end_date
+      type: date
+      required: true
+    - name: contract_type
+      label: contract_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: payment_terms
+      label: payment_terms
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mapping:
       attributes:
       - name: contract_id
@@ -105,26 +134,32 @@ forms:
       connection_id: bctob
     related_credentials:
       corporation:
-        related_relationship_description: Sub-Contractor
-        topic_name: subcontract_name
-        related_relationship_type: Sub-Contractor
-        topic: subcontract_id
-        relationship_type: Sub-Contract
         related_schema: contract_relationship.bcca
-        relationship_description: Sub-Contract
-        effective_date: effective_date
+        topic: subcontract_id
+        topic_name: subcontract_name
         related_topic: subcontractor_corp_num
-      contract:
-        related_relationship_description: Contract
-        topic_name: subcontract_name
-        related_relationship_type: Contract
-        topic: subcontract_id
-        relationship_type: Sub-Contract
-        related_schema: contract_relationship.bcca
-        relationship_description: Sub-Contract
+        related_topic_name: legal_name
         effective_date: effective_date
+        relationship_type: Sub-Contract
+        relationship_description: Sub-Contract
+        related_relationship_type: Sub-Contractor
+        related_relationship_description: Sub-Contractor
+      contract:
+        related_schema: contract_relationship.bcca
+        topic: subcontract_id
+        topic_name: subcontract_name
         related_topic: contract_id
+        related_topic_name: contract_name
+        effective_date: effective_date
+        relationship_type: Sub-Contract
+        relationship_description: Sub-Contract
+        related_relationship_type: Contract
+        related_relationship_description: Contract
     fields:
+    - name: subcontractor_corp_num
+      label: subcontractor_corp_num
+      type: text
+      required: true
     - name: legal_name
       label: legal_name
       type: text
@@ -133,42 +168,46 @@ forms:
       label: contract_id
       type: text
       required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: permit_issued_date
-      label: permit_issued_date
-      type: date
-      required: true
-    - name: subcontractor_corp_num
-      label: subcontractor_corp_num
+    - name: contract_name
+      label: contract_name
       type: text
-      required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    - name: effective_date
-      label: effective_date
-      type: date
       required: true
     - name: subcontract_name
       label: subcontract_name
       type: text
       required: true
+    - name: contract_type
+      label: contract_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: contract_start_date
+      label: contract_start_date
+      type: date
+      required: true
+    - name: contract_end_date
+      label: contract_end_date
+      type: date
+      required: true
+    - name: payment_terms
+      label: payment_terms
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mapping:
       attributes:
       - name: subcontract_id
@@ -187,38 +226,30 @@ forms:
       id: bcca_contract
       connection_id: bctob
     fields:
-    - name: permit_issued_date
-      label: permit_issued_date
+    - name: contract_id
+      label: contract_id
+      type: text
+      required: true
+    - name: payment_type
+      label: payment_type
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: amount_paid
+      label: amount_paid
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
       type: date
       required: true
     - name: expiry_date
       label: expiry_date
       type: date
       required: false
-    - name: contract_id
-      label: contract_id
-      type: text
-      required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
-      required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
     mapping:
       attributes:
       - name: payment_id
@@ -237,43 +268,66 @@ forms:
       id: bcca_subcontract
       connection_id: bctob
     fields:
-    - name: permit_issued_date
-      label: permit_issued_date
+    - name: subcontract_id
+      label: subcontract_id
+      type: text
+      required: true
+    - name: payment_certifier
+      label: payment_certifier
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
       type: date
       required: true
     - name: expiry_date
       label: expiry_date
       type: date
       required: false
-    - name: subcontract_id
-      label: subcontract_id
-      type: text
-      required: true
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
-      required: true
-    - name: permit_type
-      label: permit_type
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
-      required: true
     mapping:
       attributes:
       - name: certification_id
         from: helper
         source: uuid
+  bccacertificateofpayment:
+    path: /bcca/certificateofpayment
+    type: issue-credential
+    schema_name: certificate-of-payment.bcca
+    page_title: Title for certificate-of-payment.bcca
+    title: Title for certificate-of-payment.bcca
+    template: bcgov.index.html
+    description: The certification that payment can be released per terms
+    explanation: Use the form below to issue a Credential.
+    proof_request:
+      id: bcca_subcontract
+      connection_id: bctob
+    fields:
+    - name: subcontract_id
+      label: subcontract_id
+      type: text
+      required: true
+    - name: certification_id
+      label: certification_id
+      type: text
+      required: true
+    - name: reference_number
+      label: reference_number
+      type: text
+      required: true
+    - name: amount_payable
+      label: amount_payable
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    mapping:
+      attributes: []
   bccasubcontractpayment:
     path: /bcca/subcontractpayment
     type: issue-credential
@@ -287,42 +341,38 @@ forms:
       id: bcca_certificateofcompletion
       connection_id: bctob
     fields:
-    - name: permit_status
-      label: permit_status
-      type: select
-      options:
-      - todo-1
-      - todo-2
-      - todo-3
+    - name: subcontract_id
+      label: subcontract_id
+      type: text
       required: true
     - name: certification_id
       label: certification_id
       type: text
       required: true
-    - name: permit_type
-      label: permit_type
+    - name: reference_number
+      label: reference_number
+      type: text
+      required: true
+    - name: payment_type
+      label: payment_type
       type: select
       options:
       - todo-1
       - todo-2
       - todo-3
       required: true
-    - name: permit_issued_date
-      label: permit_issued_date
-      type: date
-      required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
-    - name: subcontract_id
-      label: subcontract_id
+    - name: amount_paid
+      label: amount_paid
       type: text
       required: true
     - name: effective_date
       label: effective_date
       type: date
       required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mapping:
       attributes:
       - name: payment_id
@@ -338,12 +388,20 @@ forms:
     description: Relationship between a Contract and the Client or General Contractor
     explanation: Use the form below to issue a Credential.
     fields:
-    - name: associated_source_id
-      label: associated_source_id
+    - name: source_id
+      label: source_id
       type: text
       required: true
     - name: source_name
       label: source_name
+      type: text
+      required: true
+    - name: associated_source_id
+      label: associated_source_id
+      type: text
+      required: true
+    - name: associated_source_name
+      label: associated_source_name
       type: text
       required: true
     - name: relationship_type
@@ -354,14 +412,6 @@ forms:
       - todo-2
       - todo-3
       required: true
-    - name: associated_source_name
-      label: associated_source_name
-      type: text
-      required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
     - name: relationship_description
       label: relationship_description
       type: text
@@ -370,9 +420,9 @@ forms:
       label: effective_date
       type: date
       required: true
-    - name: source_id
-      label: source_id
-      type: text
-      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
     mapping:
       attributes: []

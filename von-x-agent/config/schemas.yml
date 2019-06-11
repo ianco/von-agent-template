@@ -2,49 +2,17 @@
   version: 1.0.0
   description: The contract credential awarded to the General Contractor
   attributes:
-    contract_name:
-      description: Contract Name
-      data_type: ui_name
-      required: true
-    contract_id:
-      description: Contract ID issued by the contracting organization
-      data_type: helper_uuid
+    corp_num:
+      description: ID issued by the registering organization
+      data_type: ui_text
       required: true
     legal_name:
       description: Legal Name of Client
       data_type: ui_text
       required: true
-    permit_status:
-      description: Permit Status
-      data_type: ui_select
-      required: true
-    contractor_legal_name:
-      description: Legal Name of General Contractor
-      data_type: ui_text
-      required: true
-    permit_type:
-      description: Permit Type
-      data_type: ui_select
-      required: true
-    permit_issued_date:
-      description: Permit Issue Date
-      data_type: ui_date
-      required: true
-    corp_num:
-      description: ID issued by the registering organization
-      data_type: ui_text
-      required: true
-    expiry_date:
-      description: Permit Expiry Date
-      data_type: ui_date
-      required: false
-    effective_date:
-      description: Permit Effective Date
-      data_type: ui_date
-      required: true
-    contractor_corp_num:
-      description: ID issued by the registering organization
-      data_type: ui_text
+    project_name:
+      description: Project Name
+      data_type: ui_name
       required: true
     addressee:
       description: addressee
@@ -70,10 +38,62 @@
       description: country
       data_type: ui_text
       required: true
+    consultant_corp_num:
+      description: ID issued by the registering organization
+      data_type: ui_text
+      required: true
+    consultant_legal_name:
+      description: Legal Name of the Project Consultant
+      data_type: ui_text
+      required: true
+    contractor_corp_num:
+      description: ID issued by the registering organization
+      data_type: ui_text
+      required: true
+    contractor_legal_name:
+      description: Legal Name of General Contractor
+      data_type: ui_text
+      required: true
+    contract_id:
+      description: Contract ID issued by the contracting organization
+      data_type: helper_uuid
+      required: true
+    contract_name:
+      description: Contract Name
+      data_type: ui_name
+      required: true
+    contract_start_date:
+      description: Contract Start Date
+      data_type: ui_date
+      required: true
+    contract_end_date:
+      description: Contract End Date
+      data_type: ui_date
+      required: true
+    contract_type:
+      description: Contract Type
+      data_type: ui_select
+      required: true
+    payment_terms:
+      description: Payment Terms
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Contract Effective Date
+      data_type: ui_date
+      required: true
+    expiry_date:
+      description: Credential Expiry Date
+      data_type: ui_date
+      required: false
 - name: subcontract.bcca
   version: 1.0.0
   description: The sub-contract credential awarded to a Trade/Sub
   attributes:
+    subcontractor_corp_num:
+      description: ID issued by the registering organization
+      data_type: ui_text
+      required: true
     legal_name:
       description: Name of Trade/Sub-Contractor
       data_type: ui_text
@@ -82,162 +102,182 @@
       description: Contract ID issued by the contracting organization
       data_type: ui_text
       required: true
-    permit_status:
-      description: Permit Status
-      data_type: ui_select
+    contract_name:
+      description: Contract Name
+      data_type: ui_name
       required: true
-    permit_type:
-      description: Permit Type
-      data_type: ui_select
-      required: true
-    permit_issued_date:
-      description: Permit Issue Date
-      data_type: ui_date
-      required: true
-    subcontractor_corp_num:
-      description: ID issued by the registering organization
-      data_type: ui_text
-      required: true
-    expiry_date:
-      description: Permit Expiry Date
-      data_type: ui_date
-      required: false
     subcontract_id:
       description: Sub-Contract ID issued by the general contractor
       data_type: helper_uuid
-      required: true
-    effective_date:
-      description: Permit Effective Date
-      data_type: ui_date
       required: true
     subcontract_name:
       description: SubContract Name
       data_type: ui_name
       required: true
+    contract_type:
+      description: Contract Type
+      data_type: ui_select
+      required: true
+    contract_start_date:
+      description: Contract Start Date
+      data_type: ui_date
+      required: true
+    contract_end_date:
+      description: Contract End Date
+      data_type: ui_date
+      required: true
+    payment_terms:
+      description: Payment Terms
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Contract Effective Date
+      data_type: ui_date
+      required: true
+    expiry_date:
+      description: Credential Expiry Date
+      data_type: ui_date
+      required: false
 - name: contract-payment.bcca
   version: 1.0.0
   description: The payment against the master contract
   attributes:
-    payment_id:
-      description: Payment ID issued by the contracting organization
-      data_type: helper_uuid
-      required: true
-    permit_issued_date:
-      description: Permit Issue Date
-      data_type: ui_date
-      required: true
-    expiry_date:
-      description: Permit Expiry Date
-      data_type: ui_date
-      required: false
     contract_id:
       description: Contract ID issued by the contracting organization
       data_type: ui_text
       required: true
-    permit_status:
-      description: Permit Status
-      data_type: ui_select
-      required: true
-    effective_date:
-      description: Permit Effective Date
-      data_type: ui_date
-      required: true
-    permit_type:
-      description: Permit Type
-      data_type: ui_select
-      required: true
-- name: certificate-of-completion.bcca
-  version: 1.0.0
-  description: The certification that work has been completed per terms
-  attributes:
-    permit_issued_date:
-      description: Permit Issue Date
-      data_type: ui_date
-      required: true
-    expiry_date:
-      description: Permit Expiry Date
-      data_type: ui_date
-      required: false
-    subcontract_id:
-      description: Sub-Contract ID issued by the general contractor
-      data_type: ui_text
-      required: true
-    permit_status:
-      description: Permit Status
-      data_type: ui_select
-      required: true
-    effective_date:
-      description: Permit Effective Date
-      data_type: ui_date
-      required: true
-    certification_id:
-      description: Certification ID issued by the general contractor
-      data_type: helper_uuid
-      required: true
-    permit_type:
-      description: Permit Type
-      data_type: ui_select
-      required: true
-- name: subcontract-payment.bcca
-  version: 1.0.0
-  description: The payment against a sub-contract based on completion of work
-  attributes:
     payment_id:
       description: Payment ID issued by the contracting organization
       data_type: helper_uuid
       required: true
-    permit_status:
-      description: Permit Status
+    payment_type:
+      description: Payment Type
       data_type: ui_select
+      required: true
+    amount_paid:
+      description: Amount Paid
+      data_type: ui_text
+      required: true
+    effective_date:
+      description: Payment Date
+      data_type: ui_date
+      required: true
+    expiry_date:
+      description: Credential Expiry Date
+      data_type: ui_date
+      required: false
+- name: certificate-of-completion.bcca
+  version: 1.0.0
+  description: The certification that work has been completed per terms
+  attributes:
+    subcontract_id:
+      description: Sub-Contract ID issued by the general contractor
+      data_type: ui_text
+      required: true
+    certification_id:
+      description: Certification ID issued by the general contractor
+      data_type: helper_uuid
+      required: true
+    payment_certifier:
+      description: Certifier tha the work was completed
+      data_type: ui_text
+      required: true
+    effective_date:
+      description: Certificate Issue Date
+      data_type: ui_date
+      required: true
+    expiry_date:
+      description: Credential Expiry Date
+      data_type: ui_date
+      required: false
+- name: certificate-of-payment.bcca
+  version: 1.0.0
+  description: The certification that payment can be released per terms
+  attributes:
+    subcontract_id:
+      description: Sub-Contract ID issued by the general contractor
+      data_type: ui_text
       required: true
     certification_id:
       description: Certification ID issued by the general contractor
       data_type: ui_text
       required: true
-    permit_type:
-      description: Permit Type
-      data_type: ui_select
+    reference_number:
+      description: Reference Number
+      data_type: ui_text
       required: true
-    permit_issued_date:
-      description: Permit Issue Date
+    amount_payable:
+      description: Amount Payable
+      data_type: ui_text
+      required: true
+    effective_date:
+      description: Certificate Issue Date
       data_type: ui_date
       required: true
     expiry_date:
-      description: Permit Expiry Date
+      description: Expiry Date
       data_type: ui_date
       required: false
+- name: subcontract-payment.bcca
+  version: 1.0.0
+  description: The payment against a sub-contract based on completion of work
+  attributes:
     subcontract_id:
       description: SubContract ID issued by the contracting organization
       data_type: ui_text
       required: true
+    certification_id:
+      description: Certification ID issued by the general contractor
+      data_type: ui_text
+      required: true
+    payment_id:
+      description: Payment ID issued by the contracting organization
+      data_type: helper_uuid
+      required: true
+    reference_number:
+      description: Reference Number
+      data_type: ui_text
+      required: true
+    payment_type:
+      description: Payment Type
+      data_type: ui_select
+      required: true
+    amount_paid:
+      description: Amount Paid
+      data_type: ui_text
+      required: true
     effective_date:
-      description: Permit Effective Date
+      description: Payment Date
       data_type: ui_date
       required: true
+    expiry_date:
+      description: Credential Expiry Date
+      data_type: ui_date
+      required: false
 - name: contract_relationship.bcca
   version: 1.0.0
   description: Relationship between a Contract and the Client or General Contractor
   attributes:
-    associated_source_id:
-      description: Topic ID of the associated entity
+    source_id:
+      description: Topic ID of the parent entity
       data_type: ui_text
       required: true
     source_name:
       description: Legal Name of the parent entity
       data_type: ui_text
       required: true
-    relationship_type:
-      description: Relationship type
-      data_type: ui_select
+    associated_source_id:
+      description: Topic ID of the associated entity
+      data_type: ui_text
       required: true
     associated_source_name:
       description: Legal Name of the associated entity
       data_type: ui_text
       required: true
-    expiry_date:
-      description: Permit Expiry Date
-      data_type: ui_date
-      required: false
+    relationship_type:
+      description: Relationship type
+      data_type: ui_select
+      required: true
     relationship_description:
       description: Verbose description of the relationship
       data_type: ui_text
@@ -246,7 +286,7 @@
       description: Permit Effective Date
       data_type: ui_date
       required: true
-    source_id:
-      description: Topic ID of the parent entity
-      data_type: ui_text
-      required: true
+    expiry_date:
+      description: Permit Expiry Date
+      data_type: ui_date
+      required: false
