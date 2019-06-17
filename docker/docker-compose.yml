@@ -58,14 +58,15 @@ services:
     entrypoint: >
       /bin/bash -c "
         echo sleeping ...;
-        sleep 5;
+        sleep 15;
         ../docker-entrypoint.sh;"
 
   myorg-agent:
     build:
-      context: ../../../agent
-      dockerfile: Dockerfile.run
+      context: ../../indy-catalyst/agent
+      dockerfile: docker/Dockerfile.run
     environment:
+      - LEDGER_URL=${LEDGER_URL}
       - WALLET_TYPE=${WALLET_TYPE}
       - POSTGRESQL_WALLET_HOST=${POSTGRESQL_WALLET_HOST}
       - POSTGRESQL_WALLET_PORT=${POSTGRESQL_WALLET_PORT}
@@ -73,8 +74,8 @@ services:
       - POSTGRESQL_WALLET_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_WALLET_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
       - WALLET_ENCRYPTION_KEY=${WALLET_ENCRYPTION_KEY}
-      - INDY_WALLET_SEED=${INDY_WALLET_SEED}
-      - INDY_WALLET_DID=${INDY_WALLET_DID}
+      - WALLET_SEED_VONX=${WALLET_SEED_VONX:-}
+      - ISSUER_WALLET_DID=${ISSUER_WALLET_DID}
       - WEBHOOK_URL=http://tob-api:${AGENT_WEBHOOK_PORT}/callback
       - AGENT_IN_PORT_1=${AGENT_IN_PORT_1}
       - AGENT_IN_PORT_2=${AGENT_IN_PORT_2}
@@ -92,14 +93,15 @@ services:
     depends_on:
       - myorg-wallet-db
     entrypoint: /bin/bash
-    command: ["-c", "icatagent \
+    command: ["-c", " sleep 5; \
+            icatagent \
             --inbound-transport http '0.0.0.0' ${AGENT_IN_PORT_1} \
             --inbound-transport http '0.0.0.0' ${AGENT_IN_PORT_2} \
             --inbound-transport ws '0.0.0.0' ${AGENT_IN_PORT_3} \
             --endpoint endpoint_url \
             --outbound-transport ws \
             --outbound-transport http \
-            --genesis-transactions genesis \
+            --genesis-url '${LEDGER_URL}/genesis' \
             --auto-respond-messages \
             --accept-invites \
             --accept-requests \
@@ -110,7 +112,7 @@ services:
             --storage-type '${WALLET_TYPE}' \
             --storage-config '{\"url\":\"${POSTGRESQL_WALLET_HOST}:${POSTGRESQL_WALLET_PORT}\",\"max_connections\":5}' \
             --storage-creds '{\"account\":\"${POSTGRESQL_USER}\",\"password\":\"${POSTGRESQL_PASSWORD}\",\"admin_account\":\"postgres\",\"admin_password\":\"${POSTGRESQL_ADMIN_PASSWORD}\"}' \
-            --seed '${INDY_WALLET_SEED}' \
+            --seed '${WALLET_SEED_VONX}' \
             --admin '0.0.0.0' ${AGENT_ADMIN_PORT} \
             --label ${AGENT_NAME}"]
     volumes:
