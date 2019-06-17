@@ -54,7 +54,8 @@ services:
 #local      - orgbook
       - myorg
     depends_on:
-      - myorg-agent
+#      - myorg-agent
+      - myorg-wallet-db
     entrypoint: >
       /bin/bash -c "
         echo sleeping ...;
