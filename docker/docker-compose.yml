@@ -11,10 +11,10 @@ services:
       WEB_HOST_NAME: ${WEB_HOST_NAME:-0.0.0.0}
       WEB_HOST_PORT: ${WEB_HOST_PORT:-8080}
       WEB_HOST_TLS: ${WEB_HOST_TLS:-off}
-      AGENT_HOST: ${AGENT_HOST:-agent}
+      AGENT_HOST: ${AGENT_HOST:-controller}
       AGENT_PORT: ${AGENT_PORT:-8000}
     links:
-      - myorg-agent:agent
+      - myorg-controller:controller
     networks:
       - myorg
     ports:
@@ -23,7 +23,7 @@ services:
       - caddyx-data:/root/.caddy
       - caddyx-logs:/srv/logs
 
-  myorg-agent:
+  myorg-controller:
     build:
       context: ../von-x-agent
       dockerfile: Dockerfile
@@ -54,12 +54,65 @@ services:
 #local      - orgbook
       - myorg
     depends_on:
-      - myorg-wallet-db
+      - myorg-agent
     entrypoint: >
       /bin/bash -c "
         echo sleeping ...;
         sleep 5;
         ../docker-entrypoint.sh;"
+
+  myorg-agent:
+    build:
+      context: ../../../agent
+      dockerfile: Dockerfile.run
+    environment:
+      - WALLET_TYPE=${WALLET_TYPE}
+      - POSTGRESQL_WALLET_HOST=${POSTGRESQL_WALLET_HOST}
+      - POSTGRESQL_WALLET_PORT=${POSTGRESQL_WALLET_PORT}
+      - POSTGRESQL_WALLET_USER=${POSTGRESQL_USER}
+      - POSTGRESQL_WALLET_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_WALLET_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
+      - WALLET_ENCRYPTION_KEY=${WALLET_ENCRYPTION_KEY}
+      - INDY_WALLET_SEED=${INDY_WALLET_SEED}
+      - INDY_WALLET_DID=${INDY_WALLET_DID}
+      - WEBHOOK_URL=http://tob-api:${AGENT_WEBHOOK_PORT}/callback
+      - AGENT_IN_PORT_1=${AGENT_IN_PORT_1}
+      - AGENT_IN_PORT_2=${AGENT_IN_PORT_2}
+      - AGENT_IN_PORT_3=${AGENT_IN_PORT_3}
+      - AGENT_ADMIN_PORT=${AGENT_ADMIN_PORT}
+      - AGENT_NAME=${AGENT_NAME}
+    networks:
+#local      - orgbook
+      - myorg
+    ports:
+      - ${AGENT_IN_PORT_1}:${AGENT_IN_PORT_1}
+      - ${AGENT_IN_PORT_2}:${AGENT_IN_PORT_2}
+      - ${AGENT_IN_PORT_3}:${AGENT_IN_PORT_3}
+      - ${AGENT_ADMIN_PORT}:${AGENT_ADMIN_PORT}
+    depends_on:
+      - myorg-wallet-db
+    entrypoint: /bin/bash
+    command: ["-c", "icatagent \
+            --inbound-transport http '0.0.0.0' ${AGENT_IN_PORT_1} \
+            --inbound-transport http '0.0.0.0' ${AGENT_IN_PORT_2} \
+            --inbound-transport ws '0.0.0.0' ${AGENT_IN_PORT_3} \
+            --endpoint endpoint_url \
+            --outbound-transport ws \
+            --outbound-transport http \
+            --genesis-transactions genesis \
+            --auto-respond-messages \
+            --accept-invites \
+            --accept-requests \
+            --auto-ping-connection \
+            --wallet-type 'indy' \
+            --wallet-name 'icat_agent_wallet' \
+            --wallet-key '${WALLET_ENCRYPTION_KEY}' \
+            --storage-type '${WALLET_TYPE}' \
+            --storage-config '{\"url\":\"${POSTGRESQL_WALLET_HOST}:${POSTGRESQL_WALLET_PORT}\",\"max_connections\":5}' \
+            --storage-creds '{\"account\":\"${POSTGRESQL_USER}\",\"password\":\"${POSTGRESQL_PASSWORD}\",\"admin_account\":\"postgres\",\"admin_password\":\"${POSTGRESQL_ADMIN_PASSWORD}\"}' \
+            --seed '${INDY_WALLET_SEED}' \
+            --admin '0.0.0.0' ${AGENT_ADMIN_PORT} \
+            --label ${AGENT_NAME}"]
     volumes:
       - myorg-agent-wallet:/home/indy/.indy_client/wallet
 

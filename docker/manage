@@ -88,6 +88,15 @@ configureEnvironment () {
   export APPLICATION_URL=${APPLICATION_URL-http://localhost:${WEB_HTTP_PORT:-5001}}
   export ENDPOINT_URL=http://${ENDPOINT_HOST-$DOCKERHOST:${WEB_HTTP_PORT:-5001}}
 
+  # myorg-agent
+  export AGENT_ADMIN_PORT=8034
+  export AGENT_WEBHOOK_PORT=8030
+  export INDY_WALLET_DID=...
+  export AGENT_IN_PORT_1=8031
+  export AGENT_IN_PORT_2=8032
+  export AGENT_IN_PORT_3=8033
+  export AGENT_NAME="myorg-agent"
+
   # wallet-db
   export POSTGRESQL_DATABASE="THE_ORG_BOOK"
   export POSTGRESQL_USER="DB_USER"
