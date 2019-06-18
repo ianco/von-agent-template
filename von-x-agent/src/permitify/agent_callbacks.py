@@ -28,19 +28,19 @@ class webhooks_base:
             return self.handle_perform_menu_action(message)
 
         else:
-            s_print("Callback: topic=", topic, ", message=", message)
+            print("Callback: topic=", topic, ", message=", message)
             return ""
 
             return self.handle_connections(message["state"], message)
 
     def handle_connections(self, state, message):
         conn_id = message["connection_id"]
-        s_print("Connection: state=", state, ", connection_id=", conn_id)
+        print("Connection: state=", state, ", connection_id=", conn_id)
         return ""
 
     def handle_credentials(self, state, message):
         credential_exchange_id = message["credential_exchange_id"]
-        s_print(
+        print(
             "Credential: state=",
             state,
             ", credential_exchange_id=",
@@ -50,7 +50,7 @@ class webhooks_base:
 
     def handle_presentations(self, state, message):
         presentation_exchange_id = message["presentation_exchange_id"]
-        s_print(
+        print(
             "Presentation: state=",
             state,
             ", presentation_exchange_id=",
@@ -59,10 +59,10 @@ class webhooks_base:
         return ""
 
     def handle_get_active_menu(self, message):
-        s_print("Get active menu: message=", message)
+        print("Get active menu: message=", message)
         return ""
 
     def handle_perform_menu_action(self, message):
-        s_print("Handle menu action: message=", message)
+        print("Handle menu action: message=", message)
         return ""
 
