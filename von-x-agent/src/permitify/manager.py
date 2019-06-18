@@ -201,7 +201,7 @@ class IndyManager(ConfigServiceManager):
         client = self.get_client()
         await self._register_proof_requests(client)
         await self._register_agents(client)
-        await client.sync(False)
+        #await client.sync(False)
 
     async def _register_agents(self, client: IndyClient) -> None:
         """
