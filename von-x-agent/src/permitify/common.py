@@ -26,7 +26,7 @@ import logging.config
 from aiohttp import web
 
 from vonx.common import config
-from vonx.indy.manager import IndyManager
+from .manager import IndyManager
 from vonx.web import init_web
 
 from .views import get_agent_routes
