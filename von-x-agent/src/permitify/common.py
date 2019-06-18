@@ -50,6 +50,7 @@ def pre_init():
 async def init_app():
     app = await init_web(MANAGER)
     app.add_routes(get_agent_routes(app))
+
     return app
 
 def shutdown():
