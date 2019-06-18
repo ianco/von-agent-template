@@ -159,6 +159,7 @@ class AgentHandler:
         """
         # check the  topic and dispatch the request
         topic = request.match_info.get("topic")
+        print("Received POST callback for topic", topic)
         payload = await request.json()
 
         ret = AGENT_WEBHOOKS.POST(topic, payload)
