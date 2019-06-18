@@ -28,6 +28,18 @@ from .agent_callbacks import webhooks_base
 
 LOGGER = logging.getLogger(__name__)
 
+
+# agent webhook callbacks
+class agent_webhooks(webhooks_base):
+    def handle_credentials(self, state, message):
+        # TODO
+        return ""
+
+    def handle_presentations(self, state, message):
+        # TODO
+        return ""
+
+
 AGENT_WEBHOOKS = agent_webhooks()
 
 
@@ -153,17 +165,6 @@ class AgentHandler:
 
         response = web.json_response(ret)
         return response
-
-
-# agent webhook callbacks
-class agent_webhooks(webhooks_base):
-    def handle_credentials(self, state, message):
-        # TODO
-        return ""
-
-    def handle_presentations(self, state, message):
-        # TODO
-        return ""
 
 
 def form_handler(form: dict, handler: AgentHandler) -> Coroutine:
