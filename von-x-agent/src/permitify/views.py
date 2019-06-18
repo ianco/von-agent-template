@@ -24,7 +24,7 @@ from .view_helpers import (
     filter_by_dependent_proof_requests,
 )
 
-from .agent_callbacks import webhooks
+from .agent_callbacks import webhooks_base
 
 LOGGER = logging.getLogger(__name__)
 
@@ -156,7 +156,7 @@ class AgentHandler:
 
 
 # agent webhook callbacks
-class agent_webhooks(webhooks):
+class agent_webhooks(webhooks_base):
     def handle_credentials(self, state, message):
         # TODO
         return ""

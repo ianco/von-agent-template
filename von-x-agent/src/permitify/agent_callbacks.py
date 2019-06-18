@@ -2,14 +2,13 @@ import time
 import threading
 import os
 import json
-import web
 
 
 ####################################################
 # run background services to receive web hooks
 ####################################################
 # agent webhook callbacks
-class webhooks:
+class webhooks_base:
     def POST(self, topic, message):
 
         # dispatch based on the topic type
@@ -66,24 +65,4 @@ class webhooks:
     def handle_perform_menu_action(self, message):
         s_print("Handle menu action: message=", message)
         return ""
-
-
-def background_hook_service(urls, g_vars):
-    # run app and respond to agent webhook callbacks (run in background)
-    # port number has to be the first command line arguement
-    # pass in urls
-    app = web.application(urls, g_vars)
-    app.run()
-
-
-def background_hook_thread(urls, g_vars):
-    # run app and respond to agent webhook callbacks (run in background)
-    webhook_thread = threading.Thread(
-        target=background_hook_service, args=(urls, g_vars)
-    )
-    webhook_thread.daemon = True
-    webhook_thread.start()
-    print("Web hooks is running!")
-    return webhook_thread
-
 
