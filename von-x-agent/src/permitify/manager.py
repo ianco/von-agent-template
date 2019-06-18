@@ -235,7 +235,8 @@ class IndyManager(ConfigServiceManager):
                 issuer_ids.append(issuer_cfg["id"])
         if issuers:
             for issuer_cfg in issuers:
-                await self._register_issuer(client, issuer_cfg)
+                #await self._register_issuer(client, issuer_cfg)
+                pass
         elif config_issuers:
             LOGGER.warning("No defined issuers referenced by AGENTS")
 
@@ -318,7 +319,8 @@ class IndyManager(ConfigServiceManager):
                 holder_ids.append(holder_cfg["id"])
         if holders:
             for holder_cfg in holders:
-                await self._register_holder(client, holder_cfg)
+                #await self._register_holder(client, holder_cfg)
+                pass
         elif config_holders:
             LOGGER.info("No defined holders referenced by AGENTS")
 
@@ -356,7 +358,8 @@ class IndyManager(ConfigServiceManager):
                 verifier_ids.append(verifier_cfg["id"])
         if verifiers:
             for verifier_cfg in verifiers:
-                await self._register_verifier(client, verifier_cfg)
+                #await self._register_verifier(client, verifier_cfg)
+                pass
         elif config_verifiers:
             LOGGER.info("No defined verifiers referenced by AGENTS")
 
@@ -402,4 +405,5 @@ class IndyManager(ConfigServiceManager):
             for pr_id, pr_spec in config_prs.items():
                 if not pr_spec.get("id"):
                     pr_spec["id"] = pr_id
-                _spec_id = await client.register_proof_spec(pr_spec)
+                #_spec_id = await client.register_proof_spec(pr_spec)
+                pass
