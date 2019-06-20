@@ -1,25 +1,25 @@
 # Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
 forms:
-  my-permit:
+  ian-permit:
 
-    # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/my-organization/my-permit
-    path: /my-organization/my-permit
+    # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/ian-ville/ian-permit
+    path: /ian-ville/ian-permit
   
     # type is always "issue-credential"
     type: issue-credential
   
-    schema_name: my-permit.my-organization
-    page_title: my-org-full-name Permits
-    title: Application for my-permit
+    schema_name: ian-permit.ian-ville
+    page_title: ian-cille Permits
+    title: Application for ian-permit
   
     # Templates are defined in von-x-agent/templates
     template: bcgov.index.html
   
     description: >
-      my-org-full-name issues my-permit credentials to organizations to authorize those organizations to be able to do something.
+      ian-cille issues ian-permit credentials to organizations to authorize those organizations to be able to do something.
   
-    explanation: Use the form below to apply for a my-permit for your organization.
+    explanation: Use the form below to apply for a ian-permit for your organization.
 
     proof_request:
       id: greenlight_registration

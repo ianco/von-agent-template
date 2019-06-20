@@ -97,6 +97,7 @@ configureEnvironment () {
   export AGENT_IN_PORT_3=8033
   export WEBHOOK_HOST=http://myorg-controller:8000
   export AGENT_NAME="myorg-agent"
+  export AGENT_ENDPOINT=${AGENT_ENDPOINT:-http://$DOCKERHOST:$AGENT_IN_PORT_1}
 
   # wallet-db
   export POSTGRESQL_DATABASE="THE_ORG_BOOK"

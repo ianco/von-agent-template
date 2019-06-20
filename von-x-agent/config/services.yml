@@ -1,12 +1,12 @@
 # Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
 issuers:
-  my-organization:
-    name: my-org-full-name
-    abbreviation: my-organization
-    url: https://www.my-organization.ca/my-organization-info-page
-    email: info@my-organization.ca
-    logo_path: ../assets/img/my-organization-logo.jpg
+  ian-ville:
+    name: ian-cille
+    abbreviation: ian-ville
+    url: https://www.ian-ville.ca/ian-ville-info-page
+    email: info@ian-ville.ca
+    logo_path: ../assets/img/ian-ville-logo.jpg
     endpoint: $ENDPOINT_URL
 
     connection:
@@ -32,8 +32,8 @@ issuers:
 
     credential_types:
     - description: Permit
-      schema: my-permit.my-organization
-      issuer_url: $APPLICATION_URL/my-organization/my-permit
+      schema: ian-permit.ian-ville
+      issuer_url: $APPLICATION_URL/ian-ville/ian-permit
       depends_on:
         - greenlight_registration
       credential:

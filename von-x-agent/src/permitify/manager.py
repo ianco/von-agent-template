@@ -24,10 +24,11 @@ from typing import Mapping
 
 from vonx.common.config import load_config
 from vonx.common.manager import ConfigServiceManager
-from vonx.indy.client import IndyClient
 from vonx.indy.config import IndyConfigError, SchemaManager
-from vonx.indy.service import IndyService
 from vonx.indy.tob import CRED_TYPE_PARAMETERS, extract_translated
+
+from .client import IndyClient
+from .service import IndyService
 
 LOGGER = logging.getLogger(__name__)
 
@@ -129,35 +130,33 @@ class IndyManager(ConfigServiceManager):
         """
         super(IndyManager, self)._init_services()
 
-        #indy = self.init_indy_service()
-        #self.add_service("indy", indy)
+        indy = self.init_indy_service()
+        self.add_service("indy", indy)
 
     def get_client(self) -> IndyClient:
         """
         Obtain an IndyClient attached to the registered Indy service
         """
-        return IndyClient(self.get_service_request_target("indy"))
+        #return IndyClient(self.get_service_request_target("indy"))
+        return IndyClient(self.get_service("indy"))
 
     def get_service_init_params(self) -> dict:
         """
         Get a dictionary of parameters for initializing the :class:`IndyService` instance
         """
-        genesis_path = self._env.get("INDY_GENESIS_PATH")
-        if not genesis_path:
+        agent_admin_url = self._env.get("AGENT_ADMIN_URL")
+        if not agent_admin_url:
             raise IndyConfigError(
-                "Indy genesis transaction path (INDY_GENESIS_PATH) not defined"
+                "Indy agent admin url (AGENT_ADMIN_URL) not defined"
             )
-        genesis_url = self._env.get("INDY_GENESIS_URL")
-        ledger_url = self._env.get("INDY_LEDGER_URL")
-        if not genesis_url and not ledger_url:
-            raise IndyConfigError("Neither INDY_GENESIS_URL nor INDY_LEDGER_URL are defined")
-        protocol_version = self._env.get("LEDGER_PROTOCOL_VERSION") or None
+        tob_connection_name = self._env.get("TOB_CONNECTION_NAME")
+        if not tob_connection_name:
+            raise IndyConfigError("TOB connection name (TOB_CONNECTION_NAME) not defined")
         return {
-            "auto_register": self._env.get("AUTO_REGISTER_DID", 1),
-            "genesis_path": genesis_path,
-            "ledger_url": ledger_url,
-            "genesis_url": genesis_url,
-            "protocol_version": protocol_version,
+            "AUTO_REGISTER": self._env.get("AUTO_REGISTER_DID", 1),
+            "AGENT_ADMIN_URL": agent_admin_url,
+            "TOB_CONNECTION_NAME": tob_connection_name,
+            "TOB_INVITATION_FILE": self._env.get("TOB_INVITATION_FILE", None),
         }
 
     def init_indy_service(self, pid: str = "indy") -> IndyService:
@@ -169,7 +168,7 @@ class IndyManager(ConfigServiceManager):
         """
         spec = self.get_service_init_params()
         LOGGER.info("Initializing Indy service")
-        return IndyService(pid, self._exchange, self._env, spec)
+        return IndyService(pid, spec)
 
     async def _service_start(self) -> bool:
         """
@@ -201,7 +200,7 @@ class IndyManager(ConfigServiceManager):
         client = self.get_client()
         await self._register_proof_requests(client)
         await self._register_agents(client)
-        #await client.sync(False)
+        await client.sync(False)
 
     async def _register_agents(self, client: IndyClient) -> None:
         """
@@ -235,8 +234,7 @@ class IndyManager(ConfigServiceManager):
                 issuer_ids.append(issuer_cfg["id"])
         if issuers:
             for issuer_cfg in issuers:
-                #await self._register_issuer(client, issuer_cfg)
-                pass
+                await self._register_issuer(client, issuer_cfg)
         elif config_issuers:
             LOGGER.warning("No defined issuers referenced by AGENTS")
 
@@ -245,20 +243,12 @@ class IndyManager(ConfigServiceManager):
         Register a single issuer service from the configuration
         """
         issuer_id = issuer_cfg["id"]
-        if "wallet" not in issuer_cfg:
-            raise IndyConfigError("Wallet not defined for issuer: {}".format(issuer_id))
-        wallet_cfg = issuer_cfg["wallet"]
         if "credential_types" not in issuer_cfg:
             raise IndyConfigError("Missing credential_types for issuer: {}".format(issuer_id))
         cred_types = issuer_cfg["credential_types"]
         if "connection" not in issuer_cfg:
             raise IndyConfigError("Missing connection for issuer: {}".format(issuer_id))
         connection_cfg = issuer_cfg["connection"]
-
-        if not wallet_cfg.get("name"):
-            wallet_cfg["name"] = issuer_id + "-Issuer-Wallet"
-        if not wallet_cfg.get("seed"):
-            raise IndyConfigError("Missing wallet seed for issuer: {}".format(issuer_id))
 
         details = issuer_cfg.get("details", {})
         params = {"id": issuer_id}
@@ -275,8 +265,7 @@ class IndyManager(ConfigServiceManager):
                 params[k] = issuer_cfg[k]
         params["details"] = details
 
-        wallet_id = await client.register_wallet(wallet_cfg)
-        issuer_id = await client.register_issuer(wallet_id, params)
+        issuer_id = await client.register_issuer(params)
 
         for type_spec in cred_types:
             cred_type = load_credential_type(type_spec, self._schema_mgr)
@@ -319,8 +308,7 @@ class IndyManager(ConfigServiceManager):
                 holder_ids.append(holder_cfg["id"])
         if holders:
             for holder_cfg in holders:
-                #await self._register_holder(client, holder_cfg)
-                pass
+                await self._register_holder(client, holder_cfg)
         elif config_holders:
             LOGGER.info("No defined holders referenced by AGENTS")
 
@@ -329,16 +317,7 @@ class IndyManager(ConfigServiceManager):
         Register a single holder service from the configuration
         """
         holder_id = holder_cfg["id"]
-        if "wallet" not in holder_cfg:
-            raise IndyConfigError("Wallet not defined for holder: {}".format(holder_id))
-        wallet_cfg = holder_cfg["wallet"]
-        del holder_cfg["wallet"]
-        if not wallet_cfg.get("name"):
-            wallet_cfg["name"] = holder_id + "-Holder-Wallet"
-        if not wallet_cfg.get("seed"):
-            raise IndyConfigError("Missing wallet seed for holder: {}".format(holder_id))
-        wallet_id = await client.register_wallet(wallet_cfg)
-        holder_id = await client.register_holder(wallet_id, holder_cfg)
+        holder_id = await client.register_holder(holder_cfg)
         return holder_id
 
     async def _register_verifiers(self, client: IndyClient, limit_agents: set):
@@ -358,8 +337,7 @@ class IndyManager(ConfigServiceManager):
                 verifier_ids.append(verifier_cfg["id"])
         if verifiers:
             for verifier_cfg in verifiers:
-                #await self._register_verifier(client, verifier_cfg)
-                pass
+                await self._register_verifier(client, verifier_cfg)
         elif config_verifiers:
             LOGGER.info("No defined verifiers referenced by AGENTS")
 
@@ -368,21 +346,12 @@ class IndyManager(ConfigServiceManager):
         Register a single verifier service from the configuration
         """
         verifier_id = verifier_cfg["id"]
-        if "wallet" not in verifier_cfg:
-            raise IndyConfigError("Wallet not defined for verifier: {}".format(verifier_id))
-        wallet_cfg = verifier_cfg["wallet"]
-        del verifier_cfg["wallet"]
         if "connection" not in verifier_cfg:
             raise IndyConfigError("Missing connection for verifier: {}".format(verifier_id))
         connection_cfg = verifier_cfg["connection"]
         del verifier_cfg["connection"]
 
-        if not wallet_cfg.get("name"):
-            wallet_cfg["name"] = verifier_id + "-Verifier-Wallet"
-        if not wallet_cfg.get("seed"):
-            raise IndyConfigError("Missing wallet seed for verifier: {}".format(verifier_id))
-        wallet_id = await client.register_wallet(wallet_cfg)
-        verifier_id = await client.register_verifier(wallet_id, verifier_cfg)
+        verifier_id = await client.register_verifier(verifier_cfg)
 
         if connection_cfg:
             if not connection_cfg.get("id"):
@@ -405,5 +374,4 @@ class IndyManager(ConfigServiceManager):
             for pr_id, pr_spec in config_prs.items():
                 if not pr_spec.get("id"):
                     pr_spec["id"] = pr_id
-                #_spec_id = await client.register_proof_spec(pr_spec)
-                pass
+                _spec_id = await client.register_proof_spec(pr_spec)
