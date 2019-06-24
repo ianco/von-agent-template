@@ -61,12 +61,22 @@ class IndyClient:
                 params,
                 dependencies)
         credential = {
-            'schema_name': schema_name,
-            'schema_version': schema_version,
-            'origin_did': origin_did,
+            'cardinality_fields': {},
+            'category_labels': params['category_labels'],
+            'claim_descriptions': params['claim_descriptions'],
             'claim_labels': attributes,
-            'mapping': params,
-            'dependencies': dependencies,
+            'credential': params['credential'],
+            'credential_def_id': 'tbd',
+            'description': params['details']['label'],
+            'endpoint': params['details']['url'],
+            'logo_b64': 'tbd',
+            'mapping': params['mapping'],
+            'name': 'tbd',
+            'origin_did': origin_did,
+            'schema': schema_name,
+            'topic': params['topic'],
+            'version': schema_version,
+            'visible_fields': [],
         }
         self._issuers[issuer_id]['credential_types'].append(credential)
 
