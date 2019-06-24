@@ -62,7 +62,7 @@ class IndyClient:
                 dependencies)
         credential = {
             'cardinality_fields': {},
-            'category_labels': params['category_labels'],
+            'category_labels': {},
             'claim_descriptions': params['claim_descriptions'],
             'claim_labels': attributes,
             'credential': params['credential'],

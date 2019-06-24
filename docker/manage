@@ -109,6 +109,7 @@ configureEnvironment () {
   export POSTGRESQL_WALLET_PORT="5432"
   export POSTGRESQL_ADMIN_USER="postgres"
   export POSTGRESQL_ADMIN_PASSWORD="mysecretpassword"
+  export WALLET_SEED_VONX="00000000000000000000000000000001"
 }
 
 getStartupParams() {
