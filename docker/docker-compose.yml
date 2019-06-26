@@ -66,9 +66,10 @@ services:
         ../docker-entrypoint.sh;"
 
   myorg-agent:
-    build:
-      context: ../../indy-catalyst/agent
-      dockerfile: docker/Dockerfile.run
+    image: tob-agent
+    #build:
+    #  context: ../../indy-catalyst/agent
+    #  dockerfile: docker/Dockerfile.run
     environment:
       - LEDGER_URL=${LEDGER_URL}
       - WALLET_TYPE=${WALLET_TYPE}
