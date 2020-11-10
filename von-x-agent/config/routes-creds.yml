@@ -5,20 +5,20 @@ forms:
 
     # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/ian-co/ian-permit
     path: /ian-co/ian-permit
-  
+
     # type is always "issue-credential"
     type: issue-credential
-  
+
     schema_name: ian-permit.ian-co
     page_title: Ian Co Permits
     title: Application for ian-permit
-  
+
     # Templates are defined in von-x-agent/templates
     template: bcgov.index.html
-  
+
     description: >
       Ian Co issues ian-permit credentials to organizations to authorize those organizations to be able to do something.
-  
+
     explanation: Use the form below to apply for a ian-permit for your organization.
 
     proof_request:
@@ -37,11 +37,6 @@ forms:
 
       - name: legal_name
         label: Legal Name
-        type: text
-        required: true
-
-      - name: pst_number
-        label: PST Number
         type: text
         required: true
 

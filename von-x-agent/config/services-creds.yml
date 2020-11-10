@@ -56,14 +56,6 @@ issuers:
         # "value" identifies where to derive the data value (typically it comes from the claim)
         # "type" - if "value" - is the name of the attribute
         # "format" is an optional data format (default text)
-        - model: pst_number
-          fields:
-            type:
-              input: permit_status
-              from: value
-            value:
-              input: permit_status
-              from: claim
         - model: attribute
           fields:
             type:
@@ -110,7 +102,7 @@ verifiers:
       type: TheOrgBook
       api_url: $TOB_API_URL
     wallet:
-      seed: "tob-verifier-wallet-000000000001"
+      seed: "000000000000000o_joe_research_co"
 
 proof_requests:
   greenlight_registration:
@@ -123,12 +115,6 @@ proof_requests:
         attributes:
           - corp_num
           - legal_name
-      - key:
-          did: CYnWiuEtJJuhpWvVz3kY9D
-          name: PST Number
-          version: '1.0.3'
-        attributes:
-          - pst_number
 
 
 ### eof ###

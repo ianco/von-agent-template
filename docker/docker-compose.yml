@@ -53,7 +53,7 @@ services:
       ISSUER_WALLET_DID: ${ISSUER_WALLET_DID}
       HTTP_FORCE_CLOSE_CONNECTIONS: "true"
     networks:
-#local      - orgbook
+      - orgbook
       - myorg
     depends_on:
       - myorg-wallet-db
@@ -73,7 +73,7 @@ services:
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
       - POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
     networks:
-#local      - orgbook
+      - orgbook
       - myorg
     ports:
       - 5435:5432
@@ -88,6 +88,6 @@ volumes:
 
 networks:
   myorg:
-#local  orgbook:
-#local    external:
-#local      name: tob_tob
+  orgbook:
+    external:
+      name: tob_tob

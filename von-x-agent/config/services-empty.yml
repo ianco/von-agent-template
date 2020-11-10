@@ -1,0 +1,57 @@
+# Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
+
+issuers:
+  ian-co:
+    name: Ian Co
+    abbreviation: ian-co
+    url: https://www.ian-co.ca/ian-co-info-page
+    email: info@ian-co.ca
+    logo_path: ../assets/img/ian-co-logo.jpg
+    endpoint: $ENDPOINT_URL
+
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+      sign_target: false
+
+    wallet:
+      name: ${POSTGRESQL_WALLET_NAME:-myorg_issuer}
+      seed: $WALLET_SEED_VONX
+      type: $WALLET_TYPE
+      params:
+        storage_config:
+          url: "$POSTGRESQL_WALLET_HOST:$POSTGRESQL_WALLET_PORT"
+      access_creds:
+        key: $WALLET_ENCRYPTION_KEY
+        storage_credentials:
+          account: $POSTGRESQL_WALLET_USER
+          password: $POSTGRESQL_WALLET_PASSWORD
+          admin_account: ${POSTGRESQL_WALLET_ADMIN_USER:-postgres}
+          admin_password: $POSTGRESQL_WALLET_ADMIN_PASSWORD
+        key_derivation_method: ARGON2I_MOD
+
+    credential_types:
+
+verifiers:
+  bctob:
+    name: BC OrgBook
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+    wallet:
+      seed: "000000000000000o_joe_research_co"
+
+proof_requests:
+  greenlight_registration:
+    version: '1.0.0'
+    schemas:
+      - key:
+          did: 6qnvgJtqwK44D8LFYnV5Yf
+          name: Registered Corporation
+          version: '1.0.3'
+        attributes:
+          - corp_num
+          - legal_name
+
+
+### eof ###
